@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31d4459a-f2c4-48e1-9156-f42d579c7397" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Compilador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/AccionesSemanticas.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/TablaSimbolos.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
