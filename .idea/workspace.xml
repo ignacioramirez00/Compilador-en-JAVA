@@ -2,7 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31d4459a-f2c4-48e1-9156-f42d579c7397" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica0.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica10.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica4.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica5.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica6.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica7.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica8.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica9.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemanticaError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionesSemanticas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionesSemanticas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,12 +51,26 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/Matias/Desktop/Gitlab/backend-bootcamp-with-cart-module/back-end",
+    "last_opened_file_path": "C:/Users/Matias/Desktop/Compiladores/G13_Compiladores",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="G13_Compiladores" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
