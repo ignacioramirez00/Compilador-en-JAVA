@@ -18,7 +18,7 @@ public class AnalisisLexico {
     private static int lineaActual = 1;
 
     public AnalisisLexico(){
-
+        int i = 0;
     }
     public static void setLineaActual(int lineaA) {
         lineaActual = lineaA;
