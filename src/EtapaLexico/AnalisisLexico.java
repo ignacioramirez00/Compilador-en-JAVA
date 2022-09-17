@@ -14,9 +14,21 @@ public class AnalisisLexico {
     private Integer transicionEstados[][] = new Integer[12][26];
     private List<AccionesSemanticas> accionesSemanticas[][] = new ArrayList[12][26];
 
+    public static int estadoActual = 0;
+    private static int lineaActual = 1;
+
+    public AnalisisLexico(){
+
+    }
+    public static void setLineaActual(int lineaA) {
+        lineaActual = lineaA;
+    }
+    public static int getLineaActual(){
+        return lineaActual;
+    }
 
     public void crearTablas(){
-        String fileName = "C:\\Users\\Matias\\Desktop\\Compiladores\\G13_Compiladores\\archivos\\datos_estados.txt"; // se podra poner un link de git?
+        String fileName = "archivos/datos_estados.txt"; // se podra poner un link de git?
         try {
             int fila = 0;
             int columna = 0;
@@ -38,7 +50,7 @@ public class AnalisisLexico {
             e.printStackTrace();
         }
 
-        String fileName2 = "C:\\Users\\Matias\\Desktop\\Compiladores\\G13_Compiladores\\archivos\\acciones_semanticas.txt"; // se podra poner un link de git?
+        String fileName2 = "archivos/acciones_semanticas.txt"; // se podra poner un link de git?
         try {
             int fila = 0;
             int columna = 0;

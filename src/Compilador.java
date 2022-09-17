@@ -34,6 +34,7 @@ public class Compilador {
         tokens.put(18, "}");
         tokens.put(19, ",");
         tokens.put(20, ";");
+        tokens.put(21,"palabra reservada");
     }
 
     List<Character> crearBuffer(String txt) { // ta bom?

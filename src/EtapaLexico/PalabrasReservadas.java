@@ -4,21 +4,25 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class PalabrasReservadas {
-    Map<Integer,String> palabras; //when, while, if, then, else, end-if, out, fun, return, break
-
+    private static Map<String,Integer> palabras;
+//if then else end-if out fun return break when while
     public PalabrasReservadas() {
         palabras = Map.of(
-                1, "when",
-                2, "while",
-                3, "if",
-                4, "then",
-                5, "else",
-                6, "end-if",
-                7, "out",
-                8, "fun",
-                9, "return",
-                10, "break");
-        palabras.put(11, "ui8");
-        palabras.put(12, "f64");
+                "if", 100,
+                "then", 101,
+                "else", 102,
+                "end-if", 103,
+                "out", 104,
+                "fun", 105,
+                "return", 106,
+                "break", 107,
+                "when", 108,
+                "while", 109);
+        palabras.put("ui8",110);
+        palabras.put("f64",111);
+    }
+
+    public static Integer getIdentificador(String s) {
+        return palabras.get(s);
     }
 }

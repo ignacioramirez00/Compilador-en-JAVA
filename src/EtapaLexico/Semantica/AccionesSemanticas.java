@@ -2,11 +2,12 @@ package EtapaLexico.Semantica;
 
 import EtapaLexico.PalabrasReservadas;
 import EtapaLexico.TablaSimbolos;
+import EtapaLexico.Tokens.Token;
 
 import java.util.List;
 
 public interface AccionesSemanticas {
 
-    void ejecutar(List<Character> buffer, TablaSimbolos ts, PalabrasReservadas pr);
+    Token ejecutar(Character ch, List<Character> buffer, StringBuilder token);
     String toString();
 }

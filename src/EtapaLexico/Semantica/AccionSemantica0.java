@@ -1,7 +1,9 @@
 package EtapaLexico.Semantica;
 
+import EtapaLexico.AnalisisLexico;
 import EtapaLexico.PalabrasReservadas;
 import EtapaLexico.TablaSimbolos;
+import EtapaLexico.Tokens.Token;
 
 import java.util.List;
 
@@ -12,12 +14,18 @@ public class AccionSemantica0 implements AccionesSemanticas{
     }
 
     @Override
+    public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
+        Character c = buffer.remove(0);
+        if (c == '\n') {
+            AnalisisLexico.setLineaActual(AnalisisLexico.getLineaActual()+1);
+        }
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "AS0";
     }
 
-    @Override
-    public void ejecutar(List<Character> buffer, TablaSimbolos ts, PalabrasReservadas pr) {
 
-    }
 }
