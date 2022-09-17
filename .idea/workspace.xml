@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31d4459a-f2c4-48e1-9156-f42d579c7397" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Tokens/Token.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EtapaLexico/Tokens/TokenAtributo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compilador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compilador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica0.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica10.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica10.java" afterDir="false" />
@@ -20,9 +16,7 @@
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica8.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica8.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica9.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica9.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemanticaError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemanticaError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionesSemanticas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionesSemanticas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/TablaSimbolos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/TablaSimbolos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionesSemanticas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +50,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/Matias/Desktop/Compi-Generacion_De_Codigo",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Facundo/Desktop/Entrega Final Compi - Diciembre 2021/Compi-Generacion_De_Codigo",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -84,8 +79,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662572507173</updated>
+      <workItem from="1663449311787" duration="6508000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

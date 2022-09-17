@@ -1,6 +1,7 @@
 package EtapaLexico;
 
 import EtapaLexico.Semantica.*;
+import EtapaLexico.Tokens.Token;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +13,13 @@ public class AnalisisLexico {
     private PalabrasReservadas palabrasReservadas;
     private TablaSimbolos tablaSimbolos;
     private Integer transicionEstados[][] = new Integer[12][26];
-    private List<AccionesSemanticas> accionesSemanticas[][] = new ArrayList[12][26];
-
+    private List<AccionSemantica> accionesSemanticas[][] = new ArrayList[12][26];
+    public static StringBuilder tokenActual = new StringBuilder();
     public static int estadoActual = 0;
     private static int lineaActual = 1;
 
-    public AnalisisLexico(){
-        int i = 0;
-    }
+    public AnalisisLexico(){}
+
     public static void setLineaActual(int lineaA) {
         lineaActual = lineaA;
     }
@@ -64,7 +64,7 @@ public class AnalisisLexico {
                 }
                 String line = sc2.nextLine();
 
-                List<AccionesSemanticas> as = new ArrayList<AccionesSemanticas>();
+                List<AccionSemantica> as = new ArrayList<AccionSemantica>();
                 if (line.equals("AS0")) {
                     as.add(new AccionSemantica0());
                 }
@@ -124,7 +124,7 @@ public class AnalisisLexico {
         }
     }
 
-    void mostrarMatrizAS(List<AccionesSemanticas> t[][]) {
+    void mostrarMatrizAS(List<AccionSemantica> t[][]) {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 26; j++) {
                 System.out.print(t[i][j].toString() + "   ");
@@ -139,6 +139,163 @@ public class AnalisisLexico {
                 System.out.print(t[i][j] + "   ");
             }
             System.out.println();
+        }
+    }
+
+    void leerCodigo(List<Character> buffer){ //RETORNO CARRO VA?
+        List<Token> tokens = new ArrayList<>();
+        while(!buffer.isEmpty()) {
+            int caracter_actual;
+            switch (buffer.get(0)) {
+                case ' ':
+                    caracter_actual = 0;
+                    break;
+                case '\t':
+                    caracter_actual = 1;
+                    break;
+                case '\n':
+                    caracter_actual = 2;
+                    break;
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'g':
+                case 'h':
+                case 'i':
+                case 'j':
+                case 'k':
+                case 'l':
+                case 'm':
+                case 'n':
+                case 'o':
+                case 'p':
+                case 'q':
+                case 'r':
+                case 's':
+                case 't':
+                case 'u':
+                case 'v':
+                case 'w':
+                case 'x':
+                case 'y':
+                case 'z':
+                    caracter_actual = 3;
+                    break;
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'E':
+                case 'F':
+                case 'G':
+                case 'H':
+                case 'I':
+                case 'J':
+                case 'K':
+                case 'L':
+                case 'M':
+                case 'N':
+                case 'O':
+                case 'P':
+                case 'Q':
+                case 'R':
+                case 'S':
+                case 'T':
+                case 'U':
+                case 'V':
+                case 'W':
+                case 'X':
+                case 'Y':
+                case 'Z':
+                    caracter_actual = 4; //La D no va.
+                    break;
+                case '_':
+                    caracter_actual = 5;
+                    break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    caracter_actual = 6;
+                    break;
+                case '.':
+                    caracter_actual = 7;
+                    break;
+                case 'D':
+                    caracter_actual = 8;
+                    break;
+                case '+':
+                    caracter_actual = 9;
+                    break;
+                case '-':
+                    caracter_actual = 10;
+                    break;
+                case '/':
+                    caracter_actual = 11;
+                    break;
+                case '(':
+                    caracter_actual = 12;
+                    break;
+                case ')':
+                    caracter_actual = 13;
+                    break;
+                case '{':
+                    caracter_actual = 14;
+                    break;
+                case '}':
+                    caracter_actual = 15;
+                    break;
+                case ',':
+                    caracter_actual = 16;
+                    break;
+                case ';':
+                    caracter_actual = 17;
+                    break;
+                case '=':
+                    caracter_actual = 18;
+                    break;
+                case ':':
+                    caracter_actual = 19;
+                    break;
+                case '!':
+                    caracter_actual = 20;
+                    break;
+                case '<':
+                    caracter_actual = 21;
+                    break;
+                case '>':
+                    caracter_actual = 22;
+                    break;
+                case '*':
+                    caracter_actual = 23;
+                    break;
+                case '\'':
+                    caracter_actual = 24;
+                    break;
+                default:
+                    caracter_actual = 25;
+                    break;
+            }
+            List<AccionSemantica> accSemanticas = accionesSemanticas[estadoActual][caracter_actual];
+            Token t;
+            if(accSemanticas.size() == 2){
+                t = accSemanticas.get(0).ejecutar(buffer.get(0),buffer,tokenActual);
+                accSemanticas.get(1).ejecutar(buffer.get(0),buffer,tokenActual);
+            } else{
+                t = accSemanticas.get(0).ejecutar(buffer.get(0),buffer,tokenActual);
+            }
+            if(t!=null){ //DEVOLVEMOS LISTA DE TOKENS O UN SOLO TOKEN CADA VEZ?
+                tokens.add(t);
+            }
+            estadoActual = transicionEstados[estadoActual][caracter_actual];
         }
     }
 }

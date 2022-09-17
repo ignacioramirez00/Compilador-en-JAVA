@@ -1,13 +1,11 @@
 package EtapaLexico.Semantica;
 
 import EtapaLexico.AnalisisLexico;
-import EtapaLexico.PalabrasReservadas;
-import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
 
 import java.util.List;
 
-public class AccionSemantica0 implements AccionesSemanticas{
+public class AccionSemantica0 implements AccionSemantica {
 
     public AccionSemantica0(){
 

@@ -1,12 +1,10 @@
 package EtapaLexico.Semantica;
 
-import EtapaLexico.PalabrasReservadas;
-import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
 
 import java.util.List;
 
-public class AccionSemanticaError implements AccionesSemanticas{
+public class AccionSemanticaError implements AccionSemantica {
 
     public AccionSemanticaError(){
 
@@ -14,6 +12,7 @@ public class AccionSemanticaError implements AccionesSemanticas{
 
     @Override
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
+        //FALTA IMPLEMENTAR, DONDE CARGAMOS LOS ERRORES? LUEGO DE UN ERROR EL PROGRAMA SIGUE CORRIENDO?
         return null;
     }
 

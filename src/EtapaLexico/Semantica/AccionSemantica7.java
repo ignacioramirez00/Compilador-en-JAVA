@@ -1,12 +1,10 @@
 package EtapaLexico.Semantica;
 
-import EtapaLexico.PalabrasReservadas;
-import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
 
 import java.util.List;
 
-public class AccionSemantica7 implements AccionesSemanticas{
+public class AccionSemantica7 implements AccionSemantica {
 
     public AccionSemantica7(){
 
@@ -14,6 +12,18 @@ public class AccionSemantica7 implements AccionesSemanticas{
 
     @Override
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
+        //ESTA BIEN HACER LOS IFS O AGREGAMOS A LA LISTA DE PALABRAS RESERVADAS Y QUE COMPARE AHI?
+        Character c = buffer.remove(0);
+        String simbolo = token.toString();
+        if(simbolo.equals("=")){
+            return new Token(3);
+        }
+        if(simbolo.equals(">")){
+            return new Token(6);
+        }
+        if(simbolo.equals("<")){
+            return new Token(8);
+        }
         return null;
     }
 

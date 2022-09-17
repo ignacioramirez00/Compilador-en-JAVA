@@ -7,7 +7,7 @@ import EtapaLexico.Tokens.TokenAtributo;
 
 import java.util.List;
 
-public class AccionSemantica2 implements AccionesSemanticas{
+public class AccionSemantica2 implements AccionSemantica {
 
     public AccionSemantica2(){
 
@@ -19,7 +19,7 @@ public class AccionSemantica2 implements AccionesSemanticas{
         Character c = buffer.remove(0);
         Integer idPalabraReservada = PalabrasReservadas.getIdentificador(simbolo);
         if (idPalabraReservada != null) {
-            return new Token(idPalabraReservada);
+            return new Token(idPalabraReservada); //DEVOLVER 21?
         } else {
             if (simbolo.length() < 25) {
                 if (TablaSimbolos.obtenerSimbolo(simbolo) != -1) { // esta
