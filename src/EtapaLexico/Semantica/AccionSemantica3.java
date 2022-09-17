@@ -1,5 +1,10 @@
 package EtapaLexico.Semantica;
 
+import EtapaLexico.PalabrasReservadas;
+import EtapaLexico.TablaSimbolos;
+
+import java.util.List;
+
 public class AccionSemantica3 implements AccionesSemanticas{
 
     public AccionSemantica3(){
@@ -10,7 +15,7 @@ public class AccionSemantica3 implements AccionesSemanticas{
         return "AS3";
     }
     @Override
-    public void ejecutar() {
+    public void ejecutar(List<Character> buffer, TablaSimbolos ts, PalabrasReservadas pr) {
 
     }
 }
