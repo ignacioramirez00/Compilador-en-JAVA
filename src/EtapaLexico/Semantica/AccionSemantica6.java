@@ -12,7 +12,6 @@ public class AccionSemantica6 implements AccionSemantica {
 
     @Override
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
-        //ESTA BIEN HACER LOS IFS O AGREGAMOS A LA LISTA DE PALABRAS RESERVADAS Y QUE COMPARE AHI?
         Character c = buffer.remove(0);
         token.append(c);
         String simbolo = token.toString();

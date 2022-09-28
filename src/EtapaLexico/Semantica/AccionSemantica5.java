@@ -43,7 +43,7 @@ public class AccionSemantica5 implements AccionSemantica {
         if(c.equals(";")){
             return new Token(20);
         }
-        return null; //ERROR
+        return null;
     }
 
     @Override
