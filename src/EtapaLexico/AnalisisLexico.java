@@ -158,7 +158,7 @@ public class AnalisisLexico {
             while (!buffer.isEmpty()) {
                 int caracter_actual;
                 var c = buffer.get(0);
-                switch (buffer.get(0)) {
+                switch (c) {
                     case ' ':
                         caracter_actual = 0;
                         break;
@@ -298,13 +298,10 @@ public class AnalisisLexico {
                 }
                 List<AccionSemantica> accSemanticas = accionesSemanticas[estadoActual][caracter_actual];
                 if (accSemanticas.size() == 2) {
-                    System.out.println("ENTRO A UNA ACCION SEMANTICA CON DOS");
-                    System.out.println(buffer);
-                    t = accSemanticas.get(0).ejecutar(buffer.get(0), buffer, tokenActual);
+                    t = accSemanticas.get(0).ejecutar(c, buffer, tokenActual);
                     accSemanticas.get(1).ejecutar(c, buffer, tokenActual);
-                    System.out.println(buffer);
                 } else {
-                    t = accSemanticas.get(0).ejecutar(buffer.get(0), buffer, tokenActual);
+                    t = accSemanticas.get(0).ejecutar(c, buffer, tokenActual);
                 }
                 if (t != null) { //DEVOLVEMOS LISTA DE TOKENS O UN SOLO TOKEN CADA VEZ?
                     estadoActual = 0;
@@ -316,7 +313,7 @@ public class AnalisisLexico {
                 if (estadoActual == -1) {
                     estadoActual = 0;
                 }
-                if (estadoActual == -2) {
+                if (estadoActual == -2) { // error?
                     estadoActual = 0;
                 }
             }
@@ -330,7 +327,8 @@ public class AnalisisLexico {
         while (tieneToken == false) {
             if (!buffer.isEmpty()) {
                 int caracter_actual;
-                switch (buffer.get(0)) {
+                var c = buffer.get(0);
+                switch (c) {
                     case ' ':
                         caracter_actual = 0;
                         break;
@@ -470,17 +468,24 @@ public class AnalisisLexico {
                 }
                 List<AccionSemantica> accSemanticas = accionesSemanticas[estadoActual][caracter_actual];
                 if (accSemanticas.size() == 2) {
-                    t = accSemanticas.get(0).ejecutar(buffer.get(0), buffer, tokenActual);
-                    accSemanticas.get(1).ejecutar(buffer.get(0), buffer, tokenActual);
+                    t = accSemanticas.get(0).ejecutar(c, buffer, tokenActual);
+                    accSemanticas.get(1).ejecutar(c, buffer, tokenActual);
                 } else {
-                    t = accSemanticas.get(0).ejecutar(buffer.get(0), buffer, tokenActual);
+                    t = accSemanticas.get(0).ejecutar(c, buffer, tokenActual);
                 }
                 if (t != null) { //DEVOLVEMOS LISTA DE TOKENS O UN SOLO TOKEN CADA VEZ?
                     estadoActual = 0;
                     tieneToken = true;
                     tok = t.getId();
+                    tokenActual = new StringBuilder();
                 } else {
                     estadoActual = transicionEstados[estadoActual][caracter_actual];
+                }
+                if (estadoActual == -1) {
+                    estadoActual = 0;
+                }
+                if (estadoActual == -2) { // error?
+                    estadoActual = 0;
                 }
             }
         }
