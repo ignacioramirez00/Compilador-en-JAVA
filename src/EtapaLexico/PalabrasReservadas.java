@@ -1,10 +1,11 @@
 package EtapaLexico;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PalabrasReservadas {
-    private static Map<String,Integer> palabras;
+    private static Map<String,Integer> palabras = new HashMap<>();
 //if then else end-if out fun return break when while
     public PalabrasReservadas() {
         palabras = Map.of(
@@ -18,8 +19,8 @@ public class PalabrasReservadas {
                 "break", 107,
                 "when", 108,
                 "while", 109);
-        palabras.put("ui8",110);
-        palabras.put("f64",111);
+        //palabras.put("ui8",110);
+        //palabras.put("f64",111);
     }
 
     public static Integer getIdentificador(String s) {

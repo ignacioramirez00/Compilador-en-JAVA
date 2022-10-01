@@ -1,4 +1,5 @@
 import EtapaLexico.AnalisisLexico;
+import EtapaLexico.Tokens.Token;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Compilador {
-    private AnalisisLexico lexico;
+    private AnalisisLexico lexico = new AnalisisLexico();
     private List<Character> buffer = new ArrayList<Character>();
     Map<Integer,String> tokens = new HashMap<>();
 
@@ -37,8 +38,8 @@ public class Compilador {
         tokens.put(21,"palabra reservada");
     }
 
-    List<Character> crearBuffer(String txt) { // ta bom?
-        String fileName = "txt"; // se podra poner un link de git?
+    List<Character> crearBuffer() { // ta bom?
+        String fileName = "C:\\Users\\Matias\\Desktop\\programa_prueba.txt"; // se podra poner un link de git?
         try {
             Scanner sc = new Scanner(new File(fileName));
             while (sc.hasNextLine()) {
@@ -51,6 +52,11 @@ public class Compilador {
             e.printStackTrace();
         }
         return buffer;
+    }
+
+    void ejecutarLexico(){
+        List<Token> t = lexico.leerCodigo(crearBuffer());
+        System.out.println(t.toString());
     }
 }
 

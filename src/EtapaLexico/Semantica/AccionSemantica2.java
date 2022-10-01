@@ -22,7 +22,7 @@ public class AccionSemantica2 implements AccionSemantica {
         if (idPalabraReservada != null) {
             return new Token(idPalabraReservada);
         } else {
-            if (simbolo.length() < 25) {
+            if (simbolo.length() > 25) {
                 AnalisisLexico.agregarError("lexico","se produjo un error de rango de " + simbolo + ", contiene mas de 25 caracteres.");
                 String nuevoToken = token.substring(0,24);
                 token = new StringBuilder();

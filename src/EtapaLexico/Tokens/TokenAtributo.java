@@ -7,4 +7,9 @@ public class TokenAtributo extends Token{
         super(id);
         this.atributo = atributo;
     }
+
+    @Override
+    public String toString() {
+        return "T="+getId()+"_"+atributo;
+    }
 }
