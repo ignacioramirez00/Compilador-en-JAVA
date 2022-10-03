@@ -1,6 +1,7 @@
 package EtapaLexico.Semantica;
 
 import EtapaLexico.AnalisisLexico;
+import EtapaLexico.Lexema;
 import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
 import EtapaLexico.Tokens.TokenAtributo;
@@ -21,10 +22,11 @@ public class AccionSemantica3 implements AccionSemantica {
             AnalisisLexico.agregarError("lexico","se produjo un error de rango de " + simbolo + ", es mayor a 255.");
             simbolo = "255";
         }
-        if (TablaSimbolos.obtenerSimbolo(simbolo) != -1){
+        if (TablaSimbolos.obtenerSimbolo(simbolo) != null){
             return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
         } else {
-            TablaSimbolos.agregarSimbolo(2,simbolo);
+            Lexema lexema = new Lexema(Integer.parseInt(simbolo));
+            TablaSimbolos.agregarSimbolo(simbolo,lexema);
             return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
         }
     }

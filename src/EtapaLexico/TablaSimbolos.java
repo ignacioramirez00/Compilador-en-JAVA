@@ -6,25 +6,24 @@ import java.util.Map;
 import java.lang.Object;
 
 public class TablaSimbolos {
-    private static Map<Integer,HashMap<Integer,String>> tabla = new HashMap<>();
-    private static Integer cantidadSimbolos = 1;
+    //private static Map<Integer,HashMap<Integer,String>> tabla = new HashMap<>();
+
+    private static Map<String,Atributo> tabla = new HashMap<>();
+    //private static Integer cantidadSimbolos = 1;
 
     public TablaSimbolos() {
 
     }
-    public static void agregarSimbolo(Integer token, String simbolo) {
-        HashMap<Integer,String> atributo = new HashMap<>();
-        atributo.put(token,simbolo);
-        tabla.put(cantidadSimbolos,atributo);
-        cantidadSimbolos++;
+    public static void agregarSimbolo(String token, Lexema lexema) {
+        Atributo atributo = new Atributo(lexema);
+        tabla.put(token,atributo);
+        //cantidadSimbolos++;
     }
-    public static int obtenerSimbolo(String simbolo){
-        for (Map.Entry<Integer,HashMap<Integer,String>> entrada: tabla.entrySet()) {
-            if (entrada.getValue().containsValue(simbolo)) {
-                return entrada.getKey();
-            }
+    public static String obtenerSimbolo(String simbolo){
+        if (tabla.containsKey(simbolo)) {
+            return simbolo;
         }
-        return -1;
+        return null;
     }
 
 }

@@ -1,6 +1,7 @@
 package EtapaLexico.Semantica;
 
 import EtapaLexico.AnalisisLexico;
+import EtapaLexico.Lexema;
 import EtapaLexico.PalabrasReservadas;
 import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
@@ -29,10 +30,11 @@ public class AccionSemantica2 implements AccionSemantica {
                 token.append(nuevoToken);
                 simbolo = token.toString();
             }
-            if (TablaSimbolos.obtenerSimbolo(simbolo) != -1) { // esta
+            if (TablaSimbolos.obtenerSimbolo(simbolo) != null) { // esta
                 return new TokenAtributo(1,TablaSimbolos.obtenerSimbolo(simbolo));
             } else { // no esta
-                TablaSimbolos.agregarSimbolo(1,simbolo);
+                Lexema lexema = new Lexema(simbolo);
+                TablaSimbolos.agregarSimbolo(simbolo,lexema);
                 return new TokenAtributo(1,TablaSimbolos.obtenerSimbolo(simbolo));
             }
         }

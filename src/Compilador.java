@@ -47,6 +47,7 @@ public class Compilador {
                 for (int i = 0; i< line.length(); i++) {
                     buffer.add(line.charAt(i));
                 }
+                buffer.add('\n');
             }
         } catch (IOException e) {
             e.printStackTrace();

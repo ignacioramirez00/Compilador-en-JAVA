@@ -1,5 +1,6 @@
 package EtapaLexico.Semantica;
 
+import EtapaLexico.Lexema;
 import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
 import EtapaLexico.Tokens.TokenAtributo;
@@ -16,10 +17,11 @@ public class AccionSemantica8 implements AccionSemantica {
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
         Character c = buffer.remove(0);
         String simbolo = token.toString();
-        if(TablaSimbolos.obtenerSimbolo(simbolo) != -1){
+        if(TablaSimbolos.obtenerSimbolo(simbolo) != null){
             return new TokenAtributo(10,TablaSimbolos.obtenerSimbolo(simbolo));
         } else{
-            TablaSimbolos.agregarSimbolo(10,simbolo);
+            Lexema lexema = new Lexema(simbolo);
+            TablaSimbolos.agregarSimbolo(simbolo,lexema);
             return new TokenAtributo(10,TablaSimbolos.obtenerSimbolo(simbolo));
         }
     }

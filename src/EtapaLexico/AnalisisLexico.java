@@ -314,9 +314,11 @@ public class AnalisisLexico {
                     estadoActual = 0;
                 }
                 if (estadoActual == -2) { // error?
+                    tokenActual = new StringBuilder();
                     estadoActual = 0;
                 }
             }
+        System.out.println(errores.toString());
         return tok;
     }
 

@@ -1,9 +1,9 @@
 package EtapaLexico.Tokens;
 
 public class TokenAtributo extends Token{
-    Integer atributo;
+    String atributo;
 
-    public TokenAtributo(Integer id, Integer atributo) {
+    public TokenAtributo(Integer id, String atributo) {
         super(id);
         this.atributo = atributo;
     }

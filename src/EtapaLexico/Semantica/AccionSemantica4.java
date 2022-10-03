@@ -1,6 +1,7 @@
 package EtapaLexico.Semantica;
 
 import EtapaLexico.AnalisisLexico;
+import EtapaLexico.Lexema;
 import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
 import EtapaLexico.Tokens.TokenAtributo;
@@ -17,15 +18,16 @@ public class AccionSemantica4 implements AccionSemantica {
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
         String simbolo = token.toString();
         Character c = buffer.remove(0);
-        if( ! chequeoRango(Double.parseDouble(simbolo))){
+        if( ! chequeoRango(Double.valueOf(simbolo))){ //?
             AnalisisLexico.agregarError("lexico","se produjo un error de rango de " + simbolo + ", es mayor a 1.7976931348623157D+308.");
             simbolo = "1.7976931348623157D+308"; // el maximo
         }
-        if (TablaSimbolos.obtenerSimbolo(simbolo) != -1){
+        if (TablaSimbolos.obtenerSimbolo(simbolo) != null){
             return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
         } else {
-                TablaSimbolos.agregarSimbolo(2,simbolo);
-                return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
+            Lexema lexema = new Lexema(Double.valueOf(simbolo));
+            TablaSimbolos.agregarSimbolo(simbolo,lexema);
+            return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
         }
     }
 
