@@ -31,11 +31,11 @@ public class AccionSemantica2 implements AccionSemantica {
                 simbolo = token.toString();
             }
             if (TablaSimbolos.obtenerSimbolo(simbolo) != null) { // esta
-                return new TokenAtributo(1,TablaSimbolos.obtenerSimbolo(simbolo));
+                return new TokenAtributo(257,TablaSimbolos.obtenerSimbolo(simbolo));
             } else { // no esta
                 Lexema lexema = new Lexema(simbolo);
                 TablaSimbolos.agregarSimbolo(simbolo,lexema);
-                return new TokenAtributo(1,TablaSimbolos.obtenerSimbolo(simbolo));
+                return new TokenAtributo(257,TablaSimbolos.obtenerSimbolo(simbolo));
             }
         }
     }

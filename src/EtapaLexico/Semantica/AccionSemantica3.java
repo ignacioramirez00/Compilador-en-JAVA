@@ -23,11 +23,11 @@ public class AccionSemantica3 implements AccionSemantica {
             simbolo = "255";
         }
         if (TablaSimbolos.obtenerSimbolo(simbolo) != null){
-            return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new TokenAtributo(258,TablaSimbolos.obtenerSimbolo(simbolo));
         } else {
             Lexema lexema = new Lexema(Integer.parseInt(simbolo));
             TablaSimbolos.agregarSimbolo(simbolo,lexema);
-            return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new TokenAtributo(258,TablaSimbolos.obtenerSimbolo(simbolo));
         }
     }
 

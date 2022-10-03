@@ -15,26 +15,26 @@ public class Compilador {
     Map<Integer,String> tokens = new HashMap<>();
 
     public Compilador(){
-        tokens.put(1,"identificador");
-        tokens.put(2, "constante");
-        tokens.put(3, "=");
-        tokens.put(4, "=:");
-        tokens.put(5, "=!");
-        tokens.put(6, ">");
-        tokens.put(7, ">=");
-        tokens.put(8, "<");
-        tokens.put(9, "<=");
-        tokens.put(10, "cadena");
-        tokens.put(11, "+");
-        tokens.put(12, "-");
-        tokens.put(13, "*");
-        tokens.put(14, "/");
-        tokens.put(15, "(");
-        tokens.put(16, ")");
-        tokens.put(17, "{");
-        tokens.put(18, "}");
-        tokens.put(19, ",");
-        tokens.put(20, ";");
+        tokens.put(257,"identificador");
+        tokens.put(258, "constante");
+        tokens.put(61, "=");
+        tokens.put(272, "=:");
+        tokens.put(273, "=!");
+        tokens.put(62, ">");
+        tokens.put(270, ">=");
+        tokens.put(60, "<");
+        tokens.put(271, "<=");
+        tokens.put(259, "cadena");
+        tokens.put(43, "+");
+        tokens.put(45, "-");
+        tokens.put(42, "*");
+        tokens.put(47, "/");
+        tokens.put(40, "(");
+        tokens.put(41, ")");
+        tokens.put(123, "{");
+        tokens.put(125, "}");
+        tokens.put(44, ",");
+        tokens.put(59, ";");
         tokens.put(21,"palabra reservada");
     }
 

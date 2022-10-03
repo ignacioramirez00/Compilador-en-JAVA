@@ -18,11 +18,11 @@ public class AccionSemantica8 implements AccionSemantica {
         Character c = buffer.remove(0);
         String simbolo = token.toString();
         if(TablaSimbolos.obtenerSimbolo(simbolo) != null){
-            return new TokenAtributo(10,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new TokenAtributo(259,TablaSimbolos.obtenerSimbolo(simbolo));
         } else{
             Lexema lexema = new Lexema(simbolo);
             TablaSimbolos.agregarSimbolo(simbolo,lexema);
-            return new TokenAtributo(10,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new TokenAtributo(259,TablaSimbolos.obtenerSimbolo(simbolo));
         }
     }
 

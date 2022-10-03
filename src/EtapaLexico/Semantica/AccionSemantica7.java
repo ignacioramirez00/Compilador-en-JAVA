@@ -16,13 +16,13 @@ public class AccionSemantica7 implements AccionSemantica {
         Character c = buffer.remove(0);
         String simbolo = token.toString();
         if(simbolo.equals("=")){
-            return new Token(3);
+            return new Token(61);
         }
         if(simbolo.equals(">")){
-            return new Token(6);
+            return new Token(62);
         }
         if(simbolo.equals("<")){
-            return new Token(8);
+            return new Token(60);
         }
         return null;
     }

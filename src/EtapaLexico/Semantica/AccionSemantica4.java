@@ -23,11 +23,11 @@ public class AccionSemantica4 implements AccionSemantica {
             simbolo = "1.7976931348623157D+308"; // el maximo
         }
         if (TablaSimbolos.obtenerSimbolo(simbolo) != null){
-            return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new TokenAtributo(258,TablaSimbolos.obtenerSimbolo(simbolo));
         } else {
             Lexema lexema = new Lexema(Double.valueOf(simbolo));
             TablaSimbolos.agregarSimbolo(simbolo,lexema);
-            return new TokenAtributo(2,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new TokenAtributo(258,TablaSimbolos.obtenerSimbolo(simbolo));
         }
     }
 
