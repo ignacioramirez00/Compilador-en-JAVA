@@ -1,6 +1,6 @@
 %{
 import EtapaLexico.Semantica.*;
-
+import EtapaLexico.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +11,104 @@ import java.util.Map;
 
 %start program
 
-%%
-program :
+%% // declaracion del programa principal
+
+program: header_program begin_prog ejecucion '}'
+        | header_program
+             // falta errores
+;
+
+
+begin_prog: '{'
+;
+
+header_program: nombre_programa
+    | nombre_programa declaracion_funcion
+
+nombre_programa: ID
+;
 
 
 
+//reglas de declaraciones y bloques de sentencias
+
+//__________________//duda de declaracion ???
+
+declaracion_variables: tipo lista_variables ';'
+        | declaracion_variables lista_variables ';'
+;
+
+lista_variables: lista_variables ',' ID
+        | ID
+;
+
+
+declaracion_funcion: declaracion_funcion funcion
+        | funcion
+;
+
+
+funcion: header_funcion ejecucion_funcion
+;
+
+header_funcion: FUN ID '(' lista_parametros ')' ':' tipo
+        | FUN ID '(' ')' ':' tipo
+
+lista_parametros: parametro
+        | parametro ',' parametro
+        // avisar que el maximo es 2
+
+parametro: tipo ID
+        //ERRORES
+        | ID
+        | tipo
+;
+
+
+
+tipo: //faltaria ver el manejo de las tablas
+;
+
+
+ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}'
+        | '{' RETURN '(' expresion ')' ';' '}'
+
+
+bloque_funcion: bloque_funcion sentencia_funcion
+        | sentencia_funcion
+;
+
+sentencia_funcion: sentencia
+;
+
+parametro: tipo ID
+        //ERRORES
+        | ID
+        | tipo
+
+ejecucion: ejecucion sentencia
+        | sentencia
+;
+
+sentencia: sentencia_ejecutable
+;
+
+bloque_sentencias_ejecutables: bloque_sentencias_ejecutables sentencia_ejecutable
+                | sentencia_ejecutable
+
+sentencia_ejecutable: asignacion ';'
+                | seleccion ';'
+                | impresion ';'
+                | seleccion_when ';'
+                | iteracion_while ';'
+                | declaracion_variables
+                //ERRORES
+                | seleccion
 
 seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion '}'
  //falta agregar errores
 
-seleccion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion '}'
+iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion '}'
  //falta errores
 
 break: BREAK {
@@ -123,5 +211,25 @@ constante: CTE
  	 |'-' CTE
 ;
 
+impresion: OUT'(' CADENA ')'';'
+    |
+
 
 %%
+
+
+public static final String ERROR = "Error";
+public static final String WARNING = "Warning";
+
+public static final List<String> errores_sintacticos = new ArrayList<>();
+
+
+public static void agregarError(List<String> errores, String tipo, String error) {
+        if (tipo.equals("ERROR")) {
+                errores_compilacion = true;
+        }
+
+        int linea_actual = AnalizadorLexico.getLineaActual();
+
+        errores.add(tipo + " (Linea " + linea_actual + "): " + error);
+}
