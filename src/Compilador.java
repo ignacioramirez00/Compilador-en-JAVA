@@ -38,7 +38,7 @@ public class Compilador {
         tokens.put(21,"palabra reservada");
     }
 
-    List<Character> crearBuffer() { // ta bom?
+    public List<Character> crearBuffer() { // ta bom?
         String fileName = "C:\\Users\\Matias\\Desktop\\programa_prueba.txt"; // se podra poner un link de git?
         try {
             Scanner sc = new Scanner(new File(fileName));

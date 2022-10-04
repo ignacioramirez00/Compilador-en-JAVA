@@ -1,6 +1,8 @@
 %{
 import EtapaLexico.Semantica.*;
-import EtapaLexico.*;
+import EtapaLexico.AnalisisLexico;
+import EtapaLexico.Token;
+import Compilador;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -221,6 +223,7 @@ impresion: OUT'(' CADENA ')'';'
 public static final String ERROR = "Error";
 public static final String WARNING = "Warning";
 
+//public static List<Character> buffer = new ArrayList();
 public static final List<String> errores_sintacticos = new ArrayList<>();
 
 
@@ -229,7 +232,29 @@ public static void agregarError(List<String> errores, String tipo, String error)
                 errores_compilacion = true;
         }
 
-        int linea_actual = AnalizadorLexico.getLineaActual();
+        int linea_actual = AnalisisLexico.getLineaActual();
 
         errores.add(tipo + " (Linea " + linea_actual + "): " + error);
+}
+
+int yylex() {
+    int tok = 0;
+    List<Character> buffer = Compilador.crearBuffer();
+    AnalisisLexico.estado_actual = 0;
+    boolean tieneToken = false;
+    while (tieneToken == false) {
+        if (!buffer.isEmpty) {
+            Character c = buffer.get(0);
+            int caracter = AnalisisLexico.getCaracter();
+            Token t = AnalisisLexico.cambiarEstado(c,buffer);
+            //yylval?
+            if (t != null) {
+                tieneToken = true;
+                tok = t.getId();
+            }
+        } else {
+            tieneToken = true;
+        }
+    }
+    return tok;
 }
