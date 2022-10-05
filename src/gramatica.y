@@ -9,23 +9,39 @@ import java.util.List;
 import java.util.Map;
 %}
 
-%token ID CTE CADENA IF THEN ELSE ENDIF OUT FUN RETURN BREAK WHEN WHILE MAYOR_IGUAL MENOR_IGUAL ASIGNACION DISTINTO
+programa {
+
+    
+    func() {
+        if() {
+            return ;
+        }
+    };
+    //directamente aca iria codigo
+    while(){
+        if(){
+            break;
+        }
+    };
+}
+
+%token ID CTE CADENA IF THEN ELSE ENDIF OUT FUN RETURN BREAK WHEN WHILE MAYOR_IGUAL MENOR_IGUAL ASIGNACION DISTINTO ENTERO DOUBLE CONST DEFER
 
 %start program
 
 %% // declaracion del programa principal
 
-program: header_program begin_prog ejecucion '}'
+program: header_program '{' ejecucion '}'
         | header_program
-        | header_program begin_prog ejecucion {agregarError(errores_sintacticos,"Error","Se esperaba un '}' al final del programa");}
-        | header_program begin_prog '}' {agregarError(errores_sintacticos,"Error","Se esperaba una sentencia de ejecucion");}
+        | header_program '{' ejecucion {agregarError(errores_sintacticos,"Error","Se esperaba un '}' al final del programa");}
+        | header_program '{' '}' {agregarError(errores_sintacticos,"Error","Se esperaba una sentencia de ejecucion");}
         | '}' {agregarError(errores_sintacticos,"Error","Se esperaba un programa");}
         | '{' {agregarError(errores_sintacticos,"Error","Se esperaba un programa");}
 ;
 
-
-begin_prog: '{'
-;
+header_program: ID
+    /*| nombre_programa declaracion_funcion
+    | declaracion_funcion {agregarError(errores_sintacticos, Parser.ERROR, "Se esperaba nombre del programa");}*/ //??
 
 header_program: nombre_programa
     | nombre_programa declaracion_funcion
@@ -34,21 +50,17 @@ header_program: nombre_programa
 nombre_programa: ID
 ;
 
-
-
 //reglas de declaraciones y bloques de sentencias
 
 //__________________//duda de declaracion ???
 
 declaracion_variables: tipo lista_variables ';'
-        | declaracion_variables lista_variables ';'
+        //| declaracion_variables lista_variables ';' // raro
         | lista_variables ';' {agregarError(errores_sintacticos,"Error","Se espera un tipo para declaracion_variable");}
         | lista_variables {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la declaracion");}
 ;
 
 lista_variables: lista_variables ',' ID {
-
-
 
         }
         | ID {
@@ -93,11 +105,14 @@ parametro: tipo ID {
         | tipo {agregarError(errores_sintacticos,"Error","Se espera el nombre del parametro");}
 ;
 
-tipo: //faltaria ver el manejo de las tablas
+tipo: ENTERO
+    | DOUBLE
+    //faltaria ver el manejo de las tablas
 ;
 
 
-ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' {
+ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' ';'
+        | '{' RETURN '(' expresion ')' ';' '}' ';'
 
             //implementar el codigo
         }
@@ -135,32 +150,66 @@ ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' {
 
 bloque_funcion: bloque_funcion sentencia_funcion
         | sentencia_funcion
-        | bloque_funcion declaracion_funcion sentencia_funcion
-        | declaracion_funcion sentencia_funcion
 ;
 
 sentencia_funcion: sentencia
+        | seleccion_funcion
+        | seleccion_when_funcion
+        | iteracion_while_funcion
 ;
 
+seleccion_funcion: IF condicion_salto_if then_seleccion_funcion ENDIF {
+       //laburar con el polaco lewan
+    }
+    | IF condicion_salto_if then_seleccion_funcion else_seleccion_funcion ENDIF {
+       // laburar con el polaco lewan
+    }
+
+then_seleccion_funcion: THEN '{' ejecucion_control RETURN '(' expresion ')' '}' ';' {
+        // luburo con la polaca
+    }
+    | THEN RETURN '(' expresion ')' ';' {
+        // laburo con la polaca
+    }
+
+else_seleccion_funcion: ELSE '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
+    | ELSE RETURN '(' expresion ')' ';'
+
+seleccion_when_funcion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
+                | WHEN '(' comparacion_bool ')' THEN RETURN '(' expresion ')' ';'
+
+iteracion_while_funcion: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
+                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
+                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
+                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
+
+diferimiento: DEFER sentencia_ejecutable
+;
+
+ejecucion_control: ejecucion_control sentencia_ejecutable
+        | sentencia_ejecutable
 
 ejecucion: ejecucion sentencia
         | sentencia
 ;
 
 sentencia: sentencia_ejecutable
+        | sentencia_declarable
 ;
 
-bloque_sentencias_ejecutables: bloque_sentencias_ejecutables sentencia_ejecutable
+/*bloque_sentencias_ejecutables: bloque_sentencias_ejecutables sentencia_ejecutable
                 | sentencia_ejecutable
-;
+;*/
 
+sentencia_declarable: declaracion_variables
+        | declaracion_funcion
 
 sentencia_ejecutable: asignacion ';'
                 | seleccion ';'
                 | impresion ';'
                 | seleccion_when ';'
                 | iteracion_while ';'
-                | declaracion_variables
+                | error ';'
                 //ERRORES
                 | seleccion {agregarError(errores_sintacticos,"Error","Se espera un ';' ");}
                 | asignacion {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
@@ -187,25 +236,44 @@ iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecu
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
-                | ID ASIGNACION WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
-                | ID ASIGNACION WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
-                // desarrollando los errores
-                | WHILE ':' '(' asignacion ')' '{' ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
-                | WHILE '(' comparacion_bool ')' '(' asignacion ')' '{' ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera ':' luego de la comparacion_bool");}
-                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' del cierre '}' posterior a la ejecucion");}
-                | WHILE '(' comparacion_bool ')' ':' '{' ejecucion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una asignacion luego del ':' ");}
+ // desarrollando los errores
+                | WHILE ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
+                | WHILE '(' comparacion_bool ')' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera ':' luego de la comparacion_bool");}
+                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' del cierre '}' posterior a la ejecucion");}
+                | WHILE '(' comparacion_bool ')' ':' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una asignacion luego del ':' ");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' '}' ';' {agregarError(errores_sintactico,"Error","Se espera una ejecucion luego de la ASIGNACION");}
-                | WHILE '(' ')' ':' '(' asignacion ')' '{' ejecucion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una comparacion_bool dentro de los '(' ')' ");}
-                | WHILE '(' comparacion_bool ')' ':' '(' ')' '{' ejecucion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una asignacion dentro de los '(' ')'  ");}
+                | WHILE '(' ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una comparacion_bool dentro de los '(' ')' ");}
+                | WHILE '(' comparacion_bool ')' ':' '(' ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una asignacion dentro de los '(' ')'  ");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una ejecucion");}
 ;
+seleccion_iteracion: IF condicion_salto_if then_seleccion_iteracion ENDIF {
+       //laburar con el polaco lewan
+    }
+    | IF condicion_salto_if then_seleccion_iteracion else_seleccion_iteracion ENDIF {
+       // laburar con el polaco lewan
+    }
 
-ejecucion_iteracion : asignacion ';'
-                | seleccion ';'
+then_seleccion_iteracion: THEN '{' ejecucion_iteracion '}' ';' {
+        // luburo con la polaca
+    }
+    | THEN break ';' {
+        // laburo con la polaca
+    }
+
+else_seleccion_iteracion: ELSE '{' ejecucion_iteracion '}' ';'
+    | ELSE RETURN '(' expresion ')' ';'
+
+seleccion_when_iteracion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion '}' ';'
+                | WHEN '(' comparacion_bool ')' THEN break ';'
+
+ejecucion_iteracion: ejecucion_iteracion sentencia_iteracion
+                |sentencia_iteracion
+
+sentencia_iteracion: asignacion ';'
+                | seleccion_iteracion ';'
                 | impresion ';'
-                | seleccion_when ';'
+                | seleccion_when_iteracion ';'
                 | iteracion_while ';'
-                | declaracion_variables
                 | break ';'
 
 break: BREAK {
@@ -214,7 +282,6 @@ break: BREAK {
             agregarToken("#BI");
             }
         | BREAK ID
-        | BREAK constante
 ;
 
 seleccion: IF condicion_salto_if then_seleccion ENDIF {
@@ -224,33 +291,32 @@ seleccion: IF condicion_salto_if then_seleccion ENDIF {
        // laburar con el polaco lewan
     }
    // ERRORES
-    | IF condicion_salto_if '{' ejecucion '}' else_seleccion ENDIF {agregarError(errores_sintacticos,"Error","Se esperan un THEN");}
-    | IF condicion_salto_if then_seleccion '{' ejecucion '}' ENDIF {agregarError(errores_sintacticos,"Error","Se espera un ELSE")}
+    | IF condicion_salto_if '{' ejecucion_control '}' else_seleccion ENDIF {agregarError(errores_sintacticos,"Error","Se esperan un THEN");}
+    | IF condicion_salto_if then_seleccion '{' ejecucion_control '}' ENDIF {agregarError(errores_sintacticos,"Error","Se espera un ELSE")}
     | IF condicion_salto_if THEN ENDIF {agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del THEN");}
     | IF condicion_salto_if then_seleccion ELSE ENDIF {agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del ELSE");}
     | IF condicion_salto_if THEN else_seleccion ENDIF {agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del THEN");}
 ;
 
 
-then_seleccion: THEN '{' ejecucion '}' ';' {
+then_seleccion: THEN '{' ejecucion_control '}' ';' {
         // luburo con la polaca
     }
     | THEN sentencia_ejecutable ';' {
         // laburo con la polaca
     }
     // ERRORES
-    | THEN '{' ejecucion {agregarError(errores_sintacticos,"Error","Se espera un '}' al de las sentencias del THEN");}
+    | THEN '{' ejecucion_control {agregarError(errores_sintacticos,"Error","Se espera un '}' al de las sentencias del THEN");}
     | THEN '{' '}' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del THEN");}
-    | THEN ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera un '{' para comenzar el THEN");}
-    | THEN '{' ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera un ;");}
-    //duda por el ;
+    | THEN ejecucion_control '}' {agregarError(errores_sintacticos,"Error","Se espera un '{' para comenzar el THEN");}
+    | THEN '{' ejecucion_control '}' ';' {agregarError(errores_sintacticos,"Error","Se espera un ;");}
 ;
 
-else_seleccion: ELSE '{' ejecucion '}'
+else_seleccion: ELSE '{' ejecucion_control '}' ';'
     | ELSE sentencia_ejecutable ';'
   // ERRORES
     | ELSE '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del ELSE");}
-    | ELSE ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera un '{' luego del ELSE");}
+    | ELSE ejecucion_control'}' ';' {agregarError(errores_sintacticos,"Error","Se espera un '{' luego del ELSE");}
 ;
 
 condicion_salto_if: '(' comparacion_bool ')'{
@@ -262,7 +328,8 @@ condicion_salto_if: '(' comparacion_bool ')'{
 ;
 
 comparacion_bool: expresion comparador expresion
-    | expresion
+    | ID '(' 
+    //| expresion // raro
     //ERRORES
     | expresion comparador {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del comparador");}
     | comparador expresion {agregarError(errores_sintacticos,"Error","Se espera una expresion antes del comparador");}
@@ -276,7 +343,7 @@ comparador: '>'
     | DISTINTO
 ;
 
-asignacion: ID ASIGNACION '(' expresion ')'{
+asignacion: ID ASIGNACION expresion {
         // tabla de simbolos
     }
     | ID ASIGNACION expresion {
@@ -288,12 +355,12 @@ asignacion: ID ASIGNACION '(' expresion ')'{
     | ID ASIGNACION {agregarError(errores_sintacticos,"Error","Se espera una expresion del lado derecho de la asignacion");}
 ;
 
-expresion: expresion '+' termino_positivo
-    | expresion '-' termino_positivo
+expresion: expresion '+' termino
+    | expresion '-' termino
     | termino
     // ERRORES
-    | tipo '(' expresion '+' termino_positivo ')' {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
-    | tipo '(' expresion '-' termino_positivo ')' {agregarError(erores_sintacticos,"Error","Conversion explicita no permitida");}
+    | tipo '(' expresion '+' termino ')' {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
+    | tipo '(' expresion '-' termino ')' {agregarError(erores_sintacticos,"Error","Conversion explicita no permitida");}
     | tipo '(' termino ')' {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
     // duda con el tipo de la expresion
 ;
@@ -303,69 +370,24 @@ termino: termino '*' factor
     | factor
 ;
 
-termino_positivo: termino_positivo '*' factor
-    | termino_positivo '/' factor
-    | factor_positivo
-;
-
-
-
-factor: ID {
-      // laburar con la tabla de simbolos
-    }
+combinacion_terminales : ID 
     | CTE {
-        // tabla de simbolos
+         //agregar atributo a la tabla de simbolo
     }
-    | '-' CTE {
+ 	|'-' CTE {
+        //agregar atributo a la tabla de simbolo
+    }
+
+factor: combinacion_terminales
+    | ID '(' combinacion_terminales ',' combinacion_terminales ')'{
         // laburar con la tabla de simbolos
     }
-    | ID '(' ID ',' ID ')'{
-        // laburar con la tabla de simbolos
-    }
-    | ID '(' ID ',' constante ')'{
-        // laburar con la tabla de simbolos
-    }
-    | ID '(' constante ',' ID ')'{
-        // laburar con la tabla de simbolos
-    }
-    | ID '(' constante ',' constante ')'{
-        // labuarar con la tabla de simbolo
-    }
-    | ID '(' constante ')'{
-        // labuarar con la tabla de simbolo
-    }
-    | ID '(' ID ')'{
+    | ID '(' combinacion_terminales ')'{
         // labuarar con la tabla de simbolo
     }
     | ID '(' ')'
 ;
 
-factor_positivo: ID { // lo agregamos aca a lo anterior?
-        // laburar con la tabla de simbolo
-    }
-    | CTE{
-        // laburar con la tabla de simbolo
-    }
-    | ID '(' ID ')'{
-        // laburar con la tabla de simbolo
-    }
-    | ID '(' constante ')'{
-        // laburar con la tabld de simbolo
-    }
-    // ERROR
-    //| ID '(' ')' {agregarError(errores_sintacticos,"Error","se espera un parametro");}
-    //consulta ya que puede pasar que no haya ningun parametro
-;
-
-
-
-constante: CTE {
-         //agregar atributo a la tabla de simbolo
-     }
- 	 |'-' CTE {
-        //agregar atributo a la tabla de simbolo
-     }
-;
 
 
 impresion: OUT'(' CADENA ')'';'{
@@ -396,18 +418,19 @@ public static void agregarError(List<String> errores, String tipo, String error)
 }
 
 int yylex() {
+    AnalisisLexico AL = new AnalisisLexico();
     int tok = 0;
     List<Character> buffer = Compilador.crearBuffer();
-    AnalisisLexico.estado_actual = 0;
+    AL.estado_actual = 0;
     boolean tieneToken = false;
     while (tieneToken == false) {
         if (!buffer.isEmpty) {
             Character c = buffer.get(0);
-            int caracter = AnalisisLexico.getCaracter();
-            Token t = AnalisisLexico.cambiarEstado(c,buffer);
-            //yylval?
+            int caracter = AL.getCaracter();
+            Token t = AL.cambiarEstado(c,buffer);
             if (t != null) {
                 tieneToken = true;
+                yylval = t.getAtributo();
                 tok = t.getId();
             }
         } else {

@@ -20,8 +20,10 @@ public class PalabrasReservadas {
                 new AbstractMap.SimpleEntry<>("break", 267),
                 new AbstractMap.SimpleEntry<>("when", 268),
                 new AbstractMap.SimpleEntry<>("while", 269),
-                new AbstractMap.SimpleEntry<>("ui8",110),//??
-                new AbstractMap.SimpleEntry<>("f64",111));//??
+                new AbstractMap.SimpleEntry<>("ui8",270),
+                new AbstractMap.SimpleEntry<>("f64",271),
+                new AbstractMap.SimpleEntry<>("const",272),
+                new AbstractMap.SimpleEntry<>("defer",273));
     }
 
     public static Integer getIdentificador(String s) {

@@ -16,16 +16,16 @@ public class AccionSemantica6 implements AccionSemantica {
         token.append(c);
         String simbolo = token.toString();
         if(simbolo.equals("=:")){
-            return new Token(272);
+            return new Token(272,null);
         }
         if(simbolo.equals("=!")){
-            return new Token(273);
+            return new Token(273,null);
         }
         if(simbolo.equals(">=")){
-            return new Token(270);
+            return new Token(270,null);
         }
         if(simbolo.equals("<=")){
-            return new Token(270);
+            return new Token(270,null);
         }
         return null;
     }

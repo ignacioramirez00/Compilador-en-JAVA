@@ -4,7 +4,6 @@ import EtapaLexico.AnalisisLexico;
 import EtapaLexico.Lexema;
 import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
-import EtapaLexico.Tokens.TokenAtributo;
 
 import java.util.List;
 
@@ -23,11 +22,11 @@ public class AccionSemantica4 implements AccionSemantica {
             simbolo = "1.7976931348623157D+308"; // el maximo
         }
         if (TablaSimbolos.obtenerSimbolo(simbolo) != null){
-            return new TokenAtributo(258,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new Token(258,TablaSimbolos.obtenerSimbolo(simbolo));
         } else {
             Lexema lexema = new Lexema(Double.valueOf(simbolo));
             TablaSimbolos.agregarSimbolo(simbolo,lexema);
-            return new TokenAtributo(258,TablaSimbolos.obtenerSimbolo(simbolo));
+            return new Token(258,TablaSimbolos.obtenerSimbolo(simbolo));
         }
     }
 

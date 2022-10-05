@@ -5,7 +5,6 @@ import EtapaLexico.Lexema;
 import EtapaLexico.PalabrasReservadas;
 import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
-import EtapaLexico.Tokens.TokenAtributo;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class AccionSemantica2 implements AccionSemantica {
         Character c = buffer.remove(0);
         Integer idPalabraReservada = PalabrasReservadas.getIdentificador(simbolo);
         if (idPalabraReservada != null) {
-            return new Token(idPalabraReservada);
+            return new Token(idPalabraReservada,null);
         } else {
             if (simbolo.length() > 25) {
                 AnalisisLexico.agregarError("lexico","se produjo un error de rango de " + simbolo + ", contiene mas de 25 caracteres.");
@@ -31,11 +30,11 @@ public class AccionSemantica2 implements AccionSemantica {
                 simbolo = token.toString();
             }
             if (TablaSimbolos.obtenerSimbolo(simbolo) != null) { // esta
-                return new TokenAtributo(257,TablaSimbolos.obtenerSimbolo(simbolo));
+                return new Token(257,TablaSimbolos.obtenerSimbolo(simbolo));
             } else { // no esta
                 Lexema lexema = new Lexema(simbolo);
                 TablaSimbolos.agregarSimbolo(simbolo,lexema);
-                return new TokenAtributo(257,TablaSimbolos.obtenerSimbolo(simbolo));
+                return new Token(257,TablaSimbolos.obtenerSimbolo(simbolo));
             }
         }
     }
