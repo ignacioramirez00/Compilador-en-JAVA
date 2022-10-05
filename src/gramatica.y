@@ -43,11 +43,6 @@ header_program: ID
     /*| nombre_programa declaracion_funcion
     | declaracion_funcion {agregarError(errores_sintacticos, Parser.ERROR, "Se esperaba nombre del programa");}*/ //??
 
-header_program: nombre_programa
-    | nombre_programa declaracion_funcion
-    | declaracion_funcion {agregarError(errores_sintacticos, Parser.ERROR, "Se esperaba nombre del programa");}
-
-nombre_programa: ID
 ;
 
 //reglas de declaraciones y bloques de sentencias
@@ -113,12 +108,8 @@ tipo: ENTERO
 
 ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' ';'
         | '{' RETURN '(' expresion ')' ';' '}' ';'
-
             //implementar el codigo
-        }
-        | '{' RETURN '(' expresion ')' ';' '}' {
-            // implementar el codigo
-        }
+
         | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion '}' {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion");}
         | '{' bloque_funcion RETURN '(' expresion ')' ';' {agregarError(errores_sintacticos,"Error", "Se espera un '}");}
         | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion {agregarError(errores_sintacticos,"Error","El RETURN debe ser la ultima sentencia de la funcion y se espera un '}' de cierre");}
@@ -220,16 +211,16 @@ sentencia_ejecutable: asignacion ';'
                 | break {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
 ;
 
-seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion '}'
+seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control '}'
             | WHEN '(' comparacion_bool ')' THEN sentencia_ejecutable ';'
             // me dice que tengo que incorporar en lista de palabras reservadas a la palabra const
            // faltan los errores
             | WHEN '(' comparacion_bool ')' THEN {agregarError(errores_sintacticos,"Error","Se espera una ejecucion ';' ");}
-            | WHEN '(' ')' THEN '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool dentro de '(' ')' ");}
-            | WHEN '(' comparacion_bool ')' '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera un THEN luego de la comparacion_bool");}
+            | WHEN '(' ')' THEN '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool dentro de '(' ')' ");}
+            | WHEN '(' comparacion_bool ')' '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera un THEN luego de la comparacion_bool");}
             | WHEN '(' comparacion_bool ')' THEN ; {agregarError(errores_sintacticos,"Error","Se espera una sentencia_ejecutable luego del THEN");}
-            | WHEN comparacion_bool THEN '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre encerrada con '(' ')' ");}
-            | WHEN THEN '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool encerrado entre '(' ')' ");}
+            | WHEN comparacion_bool THEN '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre encerrada con '(' ')' ");}
+            | WHEN THEN '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool encerrado entre '(' ')' ");}
 ;
 
 iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
