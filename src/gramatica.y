@@ -134,6 +134,8 @@ ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}'
 
 bloque_funcion: bloque_funcion sentencia_funcion
         | sentencia_funcion
+        | bloque_funcion declaracion_funcion sentencia_funcion
+        | declaracion_funcion sentencia_funcion
 ;
 
 sentencia_funcion: sentencia
@@ -158,7 +160,6 @@ sentencia_ejecutable: asignacion ';'
                 | seleccion_when ';'
                 | iteracion_while ';'
                 | declaracion_variables
-                | break ';'
                 //ERRORES
                 | seleccion {agregarError(errores_sintacticos,"Error","Se espera un ';' ");}
                 | asignacion {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
@@ -170,6 +171,7 @@ sentencia_ejecutable: asignacion ';'
 ;
 
 seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion '}'
+                | WHEN '(' comparacion_bool ')' THEN sentencia_ejecutable ';'
  // faltan los errores
 
 
@@ -189,7 +191,12 @@ seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion '}'
 
 ;
 
-iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion '}' ';'
+iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
+                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
+                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
+                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
+                | ID ASIGNACION WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
+                | ID ASIGNACION WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
  // desarrollando los errores
                 | WHILE ':' '(' asignacion ')' '{' ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
                 | WHILE '(' comparacion_bool ')' '(' asignacion ')' '{' ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera ':' luego de la comparacion_bool");}
@@ -201,11 +208,21 @@ iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecu
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una ejecucion");}
 ;
 
+ejecucion_iteracion : asignacion ';'
+                | seleccion ';'
+                | impresion ';'
+                | seleccion_when ';'
+                | iteracion_while ';'
+                | declaracion_variables
+                | break ';'
+
 break: BREAK {
-    apilarBreak();
-    agregarToken("");
-    agregarToken("#BI");
-}
+            apilarBreak();
+            agregarToken("");
+            agregarToken("#BI");
+            }
+        | BREAK ID
+        | BREAK constante
 ;
 
 seleccion: IF condicion_salto_if then_seleccion ENDIF {
@@ -224,7 +241,10 @@ seleccion: IF condicion_salto_if then_seleccion ENDIF {
 
 
 then_seleccion: THEN '{' ejecucion '}' ';' {
-       // luburo con la polaca
+        // luburo con la polaca
+    }
+    | THEN sentencia_ejecutable ';' {
+        // laburo con la polaca
     }
     // ERRORES
     | THEN '{' ejecucion {agregarError(errores_sintacticos,"Error","Se espera un '}' al de las sentencias del THEN");}
@@ -235,6 +255,7 @@ then_seleccion: THEN '{' ejecucion '}' ';' {
 ;
 
 else_seleccion: ELSE '{' ejecucion '}'
+    | ELSE sentencia_ejecutable ';'
   // ERRORES
     | ELSE '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del ELSE");}
     | ELSE ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera un '{' luego del ELSE");}
@@ -296,6 +317,7 @@ termino_positivo: termino_positivo '*' factor
 ;
 
 
+
 factor: ID {
       // laburar con la tabla de simbolos
     }
@@ -305,17 +327,28 @@ factor: ID {
     | '-' CTE {
         // laburar con la tabla de simbolos
     }
-    | ID '(' ID ')'{
+    | ID '(' ID ',' ID ')'{
         // laburar con la tabla de simbolos
+    }
+    | ID '(' ID ',' constante ')'{
+        // laburar con la tabla de simbolos
+    }
+    | ID '(' constante ',' ID ')'{
+        // laburar con la tabla de simbolos
+    }
+    | ID '(' constante ',' constante ')'{
+        // labuarar con la tabla de simbolo
     }
     | ID '(' constante ')'{
         // labuarar con la tabla de simbolo
     }
-    // ERROR
-    | ID '(' ')' // misma consulta que en factor_positivo
+    | ID '(' ID ')'{
+        // labuarar con la tabla de simbolo
+    }
+    | ID '(' ')'
 ;
 
-factor_positivo: ID {
+factor_positivo: ID { // lo agregamos aca a lo anterior?
         // laburar con la tabla de simbolo
     }
     | CTE{
