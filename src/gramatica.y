@@ -97,40 +97,41 @@ tipo: //faltaria ver el manejo de las tablas
 ;
 
 
-ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}'
-        | '{' RETURN '(' expresion ')' ';' '}'
+ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' {
 
-/*aca va el titan
+            //implementar el codigo
+        }
+        | '{' RETURN '(' expresion ')' ';' '}' {
+            // implementar el codigo
+        }
+        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion '}' {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion");}
+        | '{' bloque_funcion RETURN '(' expresion ')' ';' {agregarError(errores_sintacticos,"Error", "Se espera un '}");}
+        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion {agregarError(errores_sintacticos,"Error","El RETURN debe ser la ultima sentencia de la funcion y se espera un '}' de cierre");}
+        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion y se espera un '}' de cierre");}
+        | '{' bloque_funcion RETURN expresion ';' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne una expresion. Se espera un '}' para el cierre");}
+        | '{' bloque_funcion RETURN expresion ';' bloque_funcion  { agregarError(errores_sintacticos, Parser.ERROR, "Se espera que el RETURN sea la ultima sentencia y se retorne una expresion. Se espera un '}' de cierre");}
+        | '{' bloque_funcion RETURN expresion ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que la expresion a retornar este encerrada entre parentesis"); }
+        | '{' bloque_funcion RETURN expresion ';' bloque_funcion '}' { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia y la expresion a retornar este encerrada entre parentesis"); }
+        | '{' bloque_funcion RETURN expresion ';'  { agregarError(errores_sintacticos,"Error", "Se espera que la expresion a retornar este encerrada entre parentesis y un '}' para el cierre");}
+        | '{' bloque_funcion RETURN expresion ';' bloque_funcion { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia y la expresion a retornar este encerrada entre parentesis y un '}' al final para el cierre");}
+        | '{' bloque_funcion RETURN '(' ')' ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne una expresion");}
+        | '{' bloque_funcion RETURN '(' ')' ';' bloque_funcion '}' { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia y que se retorne una expresion");}
+        | '{' bloque_funcion RETURN '(' ')' ';' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne una expresion y un '}' para el cierre");}
+        | '{' '}' { agregarError(errores_sintacticos,"Error", "Se espera que la funcion tenga un bloque de sentencias"); }
+        | '{' { agregarError(errores_sintacticos,"Error", "Se espera que la funcion tenga un bloque de sentencias y un '}' al final para el cierre");}
+        | '{' RETURN ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne algun valor");}
+        | '{' RETURN ';' bloque_funcion '}' { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia, se retorne algun valor");}
+        | '{' RETURN ';' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne algun valor y un '}' al final para el cierre"); }
+        | '{' RETURN ';' bloque_funcion { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia, que se retorne algun valor y un '}' al final para el cierre"); }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
+        // A partir de aca seria los erroes que vienen de la segunda regla
+        | '{' RETURN '(' expresion ')' ';' bloque_funcion { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia y un '}' al final para el cierre");}
+        | '{' RETURN '(' expresion ')' ';' { agregarError(errores_sintacticos,"Error", "Se espera un '}' al final para el cierre");}
+        | '{' RETURN '(' ')' ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne algun valor");}
+        | '{' RETURN '(' ')' ';'  { agregarError(errores_sintacticos,"Error", "Se espera que se retorne algun valor y un '}' al final para el cierre");}
 ;
+
+
 
 bloque_funcion: bloque_funcion sentencia_funcion
         | sentencia_funcion
@@ -171,24 +172,15 @@ sentencia_ejecutable: asignacion ';'
 ;
 
 seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion '}'
-                | WHEN '(' comparacion_bool ')' THEN sentencia_ejecutable ';'
- // faltan los errores
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            | WHEN '(' comparacion_bool ')' THEN sentencia_ejecutable ';'
+            // me dice que tengo que incorporar en lista de palabras reservadas a la palabra const
+           // faltan los errores
+            | WHEN '(' comparacion_bool ')' THEN {agregarError(errores_sintacticos,"Error","Se espera una ejecucion ';' ");}
+            | WHEN '(' ')' THEN '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool dentro de '(' ')' ");}
+            | WHEN '(' comparacion_bool ')' '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera un THEN luego de la comparacion_bool");}
+            | WHEN '(' comparacion_bool ')' THEN ; {agregarError(errores_sintacticos,"Error","Se espera una sentencia_ejecutable luego del THEN");}
+            | WHEN comparacion_bool THEN '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre encerrada con '(' ')' ");}
+            | WHEN THEN '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool encerrado entre '(' ')' ");}
 ;
 
 iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
@@ -197,7 +189,7 @@ iteracion_while: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecu
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
                 | ID ASIGNACION WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
                 | ID ASIGNACION WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
- // desarrollando los errores
+                // desarrollando los errores
                 | WHILE ':' '(' asignacion ')' '{' ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
                 | WHILE '(' comparacion_bool ')' '(' asignacion ')' '{' ejecucion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera ':' luego de la comparacion_bool");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' del cierre '}' posterior a la ejecucion");}
