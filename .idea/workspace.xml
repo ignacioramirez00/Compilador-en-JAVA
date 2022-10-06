@@ -3,16 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="31d4459a-f2c4-48e1-9156-f42d579c7397" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica5.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica5.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica6.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica6.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica7.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica7.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica8.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica8.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Tokens/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Tokens/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Tokens/TokenAtributo.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gramatica.y" beforeDir="false" afterPath="$PROJECT_DIR$/src/gramatica.y" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

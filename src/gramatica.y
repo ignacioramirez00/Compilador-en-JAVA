@@ -9,23 +9,10 @@ import java.util.List;
 import java.util.Map;
 %}
 
-programa {
-
-    
-    func() {
-        if() {
-            return ;
-        }
-    };
-    //directamente aca iria codigo
-    while(){
-        if(){
-            break;
-        }
-    };
-}
-
 %token ID CTE CADENA IF THEN ELSE ENDIF OUT FUN RETURN BREAK WHEN WHILE MAYOR_IGUAL MENOR_IGUAL ASIGNACION DISTINTO ENTERO DOUBLE CONST DEFER
+
+%left '+' '-'
+%left '*' '/'
 
 %start program
 

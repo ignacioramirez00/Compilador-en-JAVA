@@ -7,6 +7,7 @@ public class Token {
 
     public Token(Integer id, String atributo) {
         this.id = id;
+        this.atributo = atributo;
     }
 
     public Integer getId() {
@@ -18,6 +19,9 @@ public class Token {
 
     @Override
     public String toString() {
-        return "T="+id+"_"+atributo;
+        if (atributo != null)
+            return "T="+id+"_"+atributo;
+        else
+            return "T="+id;
     }
 }
