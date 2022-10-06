@@ -1,4 +1,5 @@
 import EtapaLexico.AnalisisLexico;
+import EtapaLexico.TablaSimbolos;
 import EtapaLexico.Tokens.Token;
 
 import java.io.File;

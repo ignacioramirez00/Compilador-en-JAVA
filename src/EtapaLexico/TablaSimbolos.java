@@ -25,5 +25,11 @@ public class TablaSimbolos {
         }
         return null;
     }
+    public static Atributo getAtr(String s) {
+        if (tabla.containsKey(s)) {
+            return tabla.get(s);
+        }
+        return null;
+    }
 
 }

@@ -18,8 +18,9 @@ public class AccionSemantica3 implements AccionSemantica {
         String simbolo = token.toString();
         Character c = buffer.remove(0);
         if(Integer.parseInt(simbolo) > 255){
+            token = new StringBuilder();
             AnalisisLexico.agregarError("lexico","se produjo un error de rango de " + simbolo + ", es mayor a 255.");
-            simbolo = "255";
+            return null;
         }
         if (TablaSimbolos.obtenerSimbolo(simbolo) != null){
             return new Token(258,TablaSimbolos.obtenerSimbolo(simbolo));

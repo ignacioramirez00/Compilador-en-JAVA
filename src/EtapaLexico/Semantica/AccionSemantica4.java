@@ -17,17 +17,29 @@ public class AccionSemantica4 implements AccionSemantica {
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
         String simbolo = token.toString();
         Character c = buffer.remove(0);
-        if( ! chequeoRango(Double.valueOf(simbolo))){ //?
-            AnalisisLexico.agregarError("lexico","se produjo un error de rango de " + simbolo + ", es mayor a 1.7976931348623157D+308.");
-            simbolo = "1.7976931348623157D+308"; // el maximo
+        Double number = getDouble(simbolo);
+        if( ! chequeoRango(number)){ //?
+            token = new StringBuilder();
+            AnalisisLexico.agregarError("lexico","se produjo un error de rango de " + simbolo + ", esta fuera de rango");
+            return null;
         }
         if (TablaSimbolos.obtenerSimbolo(simbolo) != null){
             return new Token(258,TablaSimbolos.obtenerSimbolo(simbolo));
         } else {
-            Lexema lexema = new Lexema(Double.valueOf(simbolo));
+            Lexema lexema = new Lexema(number);
             TablaSimbolos.agregarSimbolo(simbolo,lexema);
             return new Token(258,TablaSimbolos.obtenerSimbolo(simbolo));
         }
+    }
+
+    public Double getDouble(String d){
+        if (d.contains("D")){
+            var w = d.split("D");
+            return Math.pow(Double.valueOf(w[0]),Double.valueOf(w[1]));
+        } else {
+            return Double.valueOf(d);
+        }
+
     }
 
     public boolean chequeoRango(Double d){

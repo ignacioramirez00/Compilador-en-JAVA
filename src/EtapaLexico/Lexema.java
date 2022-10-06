@@ -22,4 +22,15 @@ public class Lexema {
         this.atrDouble = null;
         this.atrEntero = null;
     }
+
+    @Override
+    public String toString() {
+        if(atrString != null)
+            return atrString;
+        if(atrDouble != null)
+            return atrDouble.toString();
+        if(atrEntero != null)
+            return atrEntero.toString();
+        return null;
+    }
 }
