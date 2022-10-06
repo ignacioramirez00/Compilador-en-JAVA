@@ -142,25 +142,25 @@ seleccion_funcion: IF condicion_salto_if then_seleccion_funcion ENDIF {
     | IF condicion_salto_if then_seleccion_funcion else_seleccion_funcion ENDIF {
        // laburar con el polaco lewan
     }
-
+;
 then_seleccion_funcion: THEN '{' ejecucion_control RETURN '(' expresion ')' '}' ';' {
         // luburo con la polaca
     }
     | THEN RETURN '(' expresion ')' ';' {
         // laburo con la polaca
     }
-
+;
 else_seleccion_funcion: ELSE '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
     | ELSE RETURN '(' expresion ')' ';'
-
+;
 seleccion_when_funcion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
                 | WHEN '(' comparacion_bool ')' THEN RETURN '(' expresion ')' ';'
-
+;
 iteracion_while_funcion: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
-
+;
 diferimiento: DEFER sentencia_ejecutable
 ;
 
@@ -181,7 +181,7 @@ sentencia: sentencia_ejecutable
 
 sentencia_declarable: declaracion_variables
         | declaracion_funcion
-
+;
 sentencia_ejecutable: asignacion ';'
                 | seleccion ';'
                 | impresion ';'
@@ -230,30 +230,30 @@ seleccion_iteracion: IF condicion_salto_if then_seleccion_iteracion ENDIF {
     | IF condicion_salto_if then_seleccion_iteracion else_seleccion_iteracion ENDIF {
        // laburar con el polaco lewan
     }
-
+;
 then_seleccion_iteracion: THEN '{' ejecucion_iteracion '}' ';' {
         // luburo con la polaca
     }
     | THEN break ';' {
         // laburo con la polaca
     }
-
+;
 else_seleccion_iteracion: ELSE '{' ejecucion_iteracion '}' ';'
     | ELSE RETURN '(' expresion ')' ';'
-
+;
 seleccion_when_iteracion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion '}' ';'
                 | WHEN '(' comparacion_bool ')' THEN break ';'
-
+;
 ejecucion_iteracion: ejecucion_iteracion sentencia_iteracion
                 |sentencia_iteracion
-
+;
 sentencia_iteracion: asignacion ';'
                 | seleccion_iteracion ';'
                 | impresion ';'
                 | seleccion_when_iteracion ';'
                 | iteracion_while ';'
                 | break ';'
-
+;
 break: BREAK {
             apilarBreak();
             agregarToken("");
@@ -306,7 +306,6 @@ condicion_salto_if: '(' comparacion_bool ')'{
 ;
 
 comparacion_bool: expresion comparador expresion
-    | ID '(' 
     //| expresion // raro
     //ERRORES
     | expresion comparador {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del comparador");}
@@ -322,9 +321,6 @@ comparador: '>'
 ;
 
 asignacion: ID ASIGNACION expresion {
-        // tabla de simbolos
-    }
-    | ID ASIGNACION expresion {
         // tabla de simbolos
     }
     // ERRORES
@@ -348,12 +344,18 @@ termino: termino '*' factor
     | factor
 ;
 
-combinacion_terminales : ID 
-    | CTE {
-         //agregar atributo a la tabla de simbolo
+combinacion_terminales : ID {
+            String ptr = TablaSimbolos.obtenerSimbolo($1.sval); // el ptr en este caso es igual que el valor xq es String?
+            // para la tabla de simbolos tenemos <String,Atributo>
     }
+    | CTE {
+            String ptr = TablaSimbolos.obtenerSimbolo($1.sval);
+            TablaSimbolos.agregarAtributo(ptr,"uso","constante");  //??
+          }
  	|'-' CTE {
-        //agregar atributo a la tabla de simbolo
+            String ptr = TablaSimbolos.obtenerSimbolo($2.sval);
+            TablaSimbolos.agregarAtributo(ptr,"uso","constante"); //??
+            TablaSimbolos.negarConstante($2.sval);
     }
 
 factor: combinacion_terminales
@@ -368,8 +370,8 @@ factor: combinacion_terminales
 
 
 
-impresion: OUT'(' CADENA ')'';'{
-     // falta agregar el codigo
+impresion: OUT '(' CADENA ')' ';' {
+     
      }
     | OUT '(' ')' {agregarError(errores_sintacticos,"Error","Se espera una cadena dentro del OUT");}
     | OUT {agregarError(errores_sintacticos,"Error","Se espera () con una cadena dentro");}
@@ -395,6 +397,7 @@ public static void agregarError(List<String> errores, String tipo, String error)
         errores.add(tipo + " (Linea " + linea_actual + "): " + error);
 }
 
+
 int yylex() {
     AnalisisLexico AL = new AnalisisLexico();
     int tok = 0;
@@ -404,16 +407,45 @@ int yylex() {
     while (tieneToken == false) {
         if (!buffer.isEmpty) {
             Character c = buffer.get(0);
-            int caracter = AL.getCaracter();
             Token t = AL.cambiarEstado(c,buffer);
             if (t != null) {
                 tieneToken = true;
-                yylval = t.getAtributo();
                 tok = t.getId();
+                if (t.getAtributo() != null) {
+                    yylval = t.getAtributo();
+                }
             }
         } else {
             tieneToken = true;
         }
     }
     return tok;
+}
+
+public Double getDouble(String d){
+    if (d.contains("D")){
+        var w = d.split("D");
+        return Math.pow(Double.valueOf(w[0]),Double.valueOf(w[1]));
+    } else {
+        return Double.valueOf(d);
+    }
+
+}
+
+public String negarConstante(String c) {
+    String ptr = TablaSimbolos.obtenerSimbolo(c);
+    String nuevo = '-' + c;
+    if (c.contains(".")) {
+        Double d = getDouble(c);
+        if ((d > Math.pow(-1.7976931348623157,308) && d < Math.pow(-2.2250738585072014,-308))){
+            TablaSimbolos.negarConstante(ptr,c);
+        } else {
+            agregarError(errores_sintacticos, "ERROR", "El numero " + constante + " esta fuera de rango.");
+            nuevo = "";
+        }
+    } else {
+        agregarError(errores_sintacticos, "WARNING", "El numero " + constante + " fue truncado al valor minimo (0), ya que es menor que este mismo");
+        nuevo = "0";
+        TablaSimbolos.truncarEntero(ptr,nuevo);
+    }
 }

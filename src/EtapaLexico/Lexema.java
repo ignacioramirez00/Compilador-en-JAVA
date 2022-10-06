@@ -23,6 +23,16 @@ public class Lexema {
         this.atrEntero = null;
     }
 
+    public String getTipo() {
+        if(atrString != null)
+            return "string";
+        if(atrDouble != null)
+            return "double";
+        if(atrEntero != null)
+            return "entero";
+        return null;
+    }
+
     @Override
     public String toString() {
         if(atrString != null)
