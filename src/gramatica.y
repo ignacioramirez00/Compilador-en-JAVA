@@ -20,10 +20,8 @@ import java.util.Map;
 
 program: header_program '{' ejecucion '}'
         | header_program
-       /* | header_program '{' ejecucion {agregarError(errores_sintacticos,"Error","Se esperaba un '}' al final del programa");}
+        | header_program '{' ejecucion {agregarError(errores_sintacticos,"Error","Se esperaba un '}' al final del programa");}
         | header_program '{' '}' {agregarError(errores_sintacticos,"Error","Se esperaba una sentencia de ejecucion");}
-        | '}' {agregarError(errores_sintacticos,"Error","Se esperaba un programa");}
-        | '{' {agregarError(errores_sintacticos,"Error","Se esperaba un programa");}*/
 ;
 
 header_program: ID
@@ -39,8 +37,8 @@ header_program: ID
 declaracion_variables: tipo lista_variables ';'
         | definicion_constante ';'
         //| declaracion_variables lista_variables ';' // raro
-       /* | lista_variables ';' {agregarError(errores_sintacticos,"Error","Se espera un tipo para declaracion_variable");}
-        | lista_variables {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la declaracion");}*/
+        | lista_variables ';' {agregarError(errores_sintacticos,"Error","Se espera un tipo para declaracion_variable");}
+        | lista_variables {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la declaracion");}
 ;
 
 lista_variables: lista_variables ',' ID
@@ -58,15 +56,15 @@ sentencia_declarable: declaracion_variables
 
 
 funcion: header_funcion ejecucion_funcion
-        //| header_funcion {agregarError(errores_sintacticos,"Error","Se espera una ejecucion_funcion");}
+        | header_funcion {agregarError(errores_sintacticos,"Error","Se espera una ejecucion_funcion");}
 ;
 
 header_funcion: FUN ID '(' lista_parametros ')' ':' tipo
         | FUN ID '(' ')' ':' tipo
-        /*| FUN '(' lista_parametros ')' ':' tipo {agregarError(errores_sintacticos,"Error","Se espera el nombre de la funcion");}
+        | FUN '(' lista_parametros ')' ':' tipo {agregarError(errores_sintacticos,"Error","Se espera el nombre de la funcion");}
         | FUN '(' ')' ':' tipo {agregarError(errores_sintacticos,"Error","Se espera el nombre de la funcion");}
-        | FUN ID '(' lista_parametros ')' ':' {agregarError(errores_sintacticos,"Error","Se espera el tipo del retorno de la funcion");}
-        | FUN ID '(' lista_parametros ')' tipo {agregarError(errores_sintacticos,"Error","Se espera el ':' luego de asignar los parametros");}*/
+        //| FUN ID '(' lista_parametros ')' ':' {agregarError(errores_sintacticos,"Error","Se espera el tipo del retorno de la funcion");}
+        | FUN ID '(' lista_parametros ')' tipo {agregarError(errores_sintacticos,"Error","Se espera el ':' luego de asignar los parametros");}
 ;
 
 
@@ -77,8 +75,8 @@ lista_parametros: parametro
 
 parametro: tipo ID
         //ERRORES
-        /*| ID {agregarError(errores_sintacticos,"Error","Se espera el tipo del parametro");}
-        | tipo {agregarError(errores_sintacticos,"Error","Se espera el nombre del parametro");}*/
+        | ID {agregarError(errores_sintacticos,"Error","Se espera el tipo del parametro");}
+        | tipo {agregarError(errores_sintacticos,"Error","Se espera el nombre del parametro");}
 ;
 
 tipo: ENTERO
@@ -261,13 +259,13 @@ then_seleccion_iteracion: THEN '{' ejecucion_iteracion '}' ';'
 else_seleccion_iteracion: ELSE '{' ejecucion_iteracion '}' ';'
     | ELSE RETURN '(' expresion ')' ';'
     // ERRRORES
-    /*| ELSE RETURN '(' ')' ';' {agregarError(errores_sintacticos,"Error","Se espera que haya una expresion entre los parentesis");}
+    | ELSE RETURN '(' ')' ';' {agregarError(errores_sintacticos,"Error","Se espera que haya una expresion entre los parentesis");}
     | ELSE RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera que haya un ';' luego de la expresion ");}
     | ELSE RETURN ';' {agregarError(errores_sintacticos,"Error","Se espera que luego del return haya una expresion entre parentesis");}
     | ELSE RETURN {agregarError(errores_sintacticos,"Error","Se espera que luego del return haya una expresion entre parentesis y un ';'al final");}
     | ELSE '{' ejecucion_iteracion '}' {agregarError(errores_sintacticos,"Error","Se espera que haya un ';' luego de '}' ");}
     | ELSE '{' ejecucion_iteracion {agregarError(errores_sintacticos,"Error","Se espera que haya una '}' y un ';' ");}
-    | ELSE ejecucion_iteracion ';' {agregarError(errores_sintacticos,"Error","Se espera que haya que la ejecucion_iteracion se encuentre entre { }");}*/
+    | ELSE ejecucion_iteracion ';' {agregarError(errores_sintacticos,"Error","Se espera que haya que la ejecucion_iteracion se encuentre entre { }");}
 ;
 
 
@@ -306,11 +304,11 @@ break: BREAK
 seleccion: IF condicion_salto_if then_seleccion ENDIF
     | IF condicion_salto_if then_seleccion else_seleccion ENDIF 
    // ERRORES
-    /*| IF condicion_salto_if '{' ejecucion_control '}' else_seleccion ENDIF {agregarError(errores_sintacticos,"Error","Se esperan un THEN");}
+    | IF condicion_salto_if '{' ejecucion_control '}' else_seleccion ENDIF {agregarError(errores_sintacticos,"Error","Se esperan un THEN");}
     | IF condicion_salto_if then_seleccion '{' ejecucion_control '}' ENDIF {agregarError(errores_sintacticos,"Error","Se espera un ELSE")}
     | IF condicion_salto_if THEN ENDIF {agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del THEN");}
     | IF condicion_salto_if then_seleccion ELSE ENDIF {agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del ELSE");}
-    | IF condicion_salto_if THEN else_seleccion ENDIF {agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del THEN");}*/
+    | IF condicion_salto_if THEN else_seleccion ENDIF {agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del THEN");}
 ;
 
 
@@ -326,24 +324,24 @@ then_seleccion: THEN '{' ejecucion_control '}' ';'
 else_seleccion: ELSE '{' ejecucion_control '}' ';'
     | ELSE sentencia_ejecutable ';'
   // ERRORES
-    /*| ELSE '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del ELSE");}
-    | ELSE ejecucion_control'}' ';' {agregarError(errores_sintacticos,"Error","Se espera un '{' luego del ELSE");}*/
+    | ELSE '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del ELSE");}
+    | ELSE ejecucion_control'}' ';' {agregarError(errores_sintacticos,"Error","Se espera un '{' luego del ELSE");}
 ;
 
 condicion_salto_if: '(' comparacion_bool ')'
    // ERRORES
-    /*| comparacion_bool ')' {agregarError(errores_sintacticos,"Error","Se espera '(' al principio de la comparacion");}
+    | comparacion_bool ')' {agregarError(errores_sintacticos,"Error","Se espera '(' al principio de la comparacion");}
     | '(' comparacion_bool {agregarError(errores_sintacticos,"Error","Se espera ')' al final de la comparacion_bool");}
     | comparacion_bool {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre entre parentesis");}
-    | '(' ')' {agregarError(errores_sintacticos,"Error","Se espera una condicion");}*/
+    | '(' ')' {agregarError(errores_sintacticos,"Error","Se espera una condicion");}
 ;
 
 comparacion_bool: expresion comparador expresion
     //| expresion // raro
     //ERRORES
-    /*| expresion comparador {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del comparador");}
+    | expresion comparador {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del comparador");}
     | comparador expresion {agregarError(errores_sintacticos,"Error","Se espera una expresion antes del comparador");}
-    | comparador {agregarError(errores_sintacticos,"Error","se espera expresiones para poder realizar las comparaciones");}*/
+    | comparador {agregarError(errores_sintacticos,"Error","se espera expresiones para poder realizar las comparaciones");}
 ;
 
 comparador: '>'
@@ -362,20 +360,20 @@ definicion_constante: CONST lista_asignaciones
 asignacion: ID ASIGNACION expresion
     // ERRORES
     /*| ASIGNACION expresion {agregarError(errores_sintacticos,"Error","Se espera un ID en el comienzo de la ASIGNACION");}
-    //| ID expresion {agregarError(errores_sintacticos,"Error","Se espera la ASIGNACION entre la ID y la expresion");}
-    //| ID ASIGNACION {agregarError(errores_sintacticos,"Error","Se espera una expresion del lado derecho de la asignacion");}*/
+    | ID expresion {agregarError(errores_sintacticos,"Error","Se espera la ASIGNACION entre la ID y la expresion");}
+    | ID ASIGNACION {agregarError(errores_sintacticos,"Error","Se espera una expresion del lado derecho de la asignacion");}*/
 ;
 
 expresion: expresion '+' termino
     | expresion '-' termino
     | termino
     // ERRORES
-    /*| tipo '(' expresion '+' termino ')' {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
+    | tipo '(' expresion '+' termino ')' {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
     | tipo '(' expresion '-' termino ')' {agregarError(erores_sintacticos,"Error","Conversion explicita no permitida");}
     | tipo '(' termino ')' {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
     | tipo '(' expresion '+' ')' {agregarError(errores_sintacticos,"Error","Se espera una termino luego del signo '+' y conversion explicita no permitida");}
     | tipo '(' expresion '-' ')' {agregarError(erroes_sintacticos,"Error","Se espera una termino luego del signo '-' y conversion explicita no permitida");}
-    // duda con el tipo de la expresion*/
+    // duda con el tipo de la expresion
 ;
 
 termino: termino '*' factor
@@ -407,9 +405,9 @@ factor: combinacion_terminales
 
 
 impresion: OUT'(' CADENA ')'';'
-    /*| OUT '(' ')' {agregarError(errores_sintacticos,"Error","Se espera una cadena dentro del OUT");}
+    | OUT '(' ')' {agregarError(errores_sintacticos,"Error","Se espera una cadena dentro del OUT");}
     | OUT {agregarError(errores_sintacticos,"Error","Se espera () con una cadena dentro");}
-    | OUT CADENA {agregarError(errores_sintacticos,"Error","Se espera un que la CADENA se encuentre entre parentesis");}*/
+    | OUT CADENA {agregarError(errores_sintacticos,"Error","Se espera un que la CADENA se encuentre entre parentesis");}
 ;
 
 
