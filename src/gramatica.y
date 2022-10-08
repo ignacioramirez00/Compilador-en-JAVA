@@ -87,10 +87,10 @@ tipo: ENTERO
 
 ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' ';'
         | '{' RETURN '(' expresion ')' ';' '}' ';'
-        /*| '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion '}' {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion");}
-        | '{' bloque_funcion RETURN '(' expresion ')' ';' {agregarError(errores_sintacticos,"Error", "Se espera un '}");}
-        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion {agregarError(errores_sintacticos,"Error","El RETURN debe ser la ultima sentencia de la funcion y se espera un '}' de cierre");}
-        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion y se espera un '}' de cierre");}
+        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion '}' {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion");}
+        //| '{' bloque_funcion RETURN '(' expresion ')' ';' {agregarError(errores_sintacticos,"Error", "Se espera un '}");}
+        //| '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion {agregarError(errores_sintacticos,"Error","El RETURN debe ser la ultima sentencia de la funcion y se espera un '}' de cierre");}
+        /*| '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion y se espera un '}' de cierre");}
         | '{' bloque_funcion RETURN expresion ';' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne una expresion. Se espera un '}' para el cierre");}
         | '{' bloque_funcion RETURN expresion ';' bloque_funcion  { agregarError(errores_sintacticos, Parser.ERROR, "Se espera que el RETURN sea la ultima sentencia y se retorne una expresion. Se espera un '}' de cierre");}
         | '{' bloque_funcion RETURN expresion ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que la expresion a retornar este encerrada entre parentesis"); }
@@ -100,9 +100,11 @@ ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' ';'
         | '{' bloque_funcion RETURN '(' ')' ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne una expresion");}
         | '{' bloque_funcion RETURN '(' ')' ';' bloque_funcion '}' { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia y que se retorne una expresion");}
         | '{' bloque_funcion RETURN '(' ')' ';' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne una expresion y un '}' para el cierre");}
-        | '{' '}' { agregarError(errores_sintacticos,"Error", "Se espera que la funcion tenga un bloque de sentencias"); }
-        | '{' { agregarError(errores_sintacticos,"Error", "Se espera que la funcion tenga un bloque de sentencias y un '}' al final para el cierre");}
-        | '{' RETURN ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne algun valor");}
+        */
+        // | '{' '}' { agregarError(errores_sintacticos,"Error", "Se espera que la funcion tenga un bloque de sentencias"); }
+        //| '{' { agregarError(errores_sintacticos,"Error", "Se espera que la funcion tenga un bloque de sentencias y un '}' al final para el cierre");}
+        //| '{' RETURN ';' '}' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne algun valor");}
+        /*
         | '{' RETURN ';' bloque_funcion '}' { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia, se retorne algun valor");}
         | '{' RETURN ';' { agregarError(errores_sintacticos,"Error", "Se espera que se retorne algun valor y un '}' al final para el cierre"); }
         | '{' RETURN ';' bloque_funcion { agregarError(errores_sintacticos,"Error", "Se espera que el RETURN sea la ultima sentencia, que se retorne algun valor y un '}' al final para el cierre"); }
@@ -141,35 +143,35 @@ else_seleccion_funcion: ELSE '{' ejecucion_control RETURN '(' expresion ')' '}' 
 seleccion_when_funcion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
                 | WHEN '(' comparacion_bool ')' THEN RETURN '(' expresion ')' ';'
                 //ERRORES
-                /*| WHEN '(' comparacion_bool ')' THEN RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la expresion");}
+                | WHEN '(' comparacion_bool ')' THEN RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la expresion");}
                 | WHEN '(' comparacion_bool ')' THEN RETURN ';' {agregarError(errores_sintacticos,"Error","Se espera la expresion de retorno");}
                 | WHEN '(' comparacion_bool ')' THEN RETURN {agregarError(errores_sintacticos,"Error","Se espera una expresion de retorno y un ';' al final");}
-                | WHEN '(' comparacion_bool ')' THEN RETURN expresion ';' {agregarError(errores_sintacticos,"Error","Se espera los parentesis en la expresion luego de RETURN");}
-                | WHEN '(' comparacion_bool ')' THEN RETURN expresion {agregarError(errores_sintacticos,"Error","Se espera que la expresion este entre parentesis y un ';' al final");}
+                //| WHEN '(' comparacion_bool ')' THEN RETURN expresion ';' {agregarError(errores_sintacticos,"Error","Se espera los parentesis en la expresion luego de RETURN");}
+                //| WHEN '(' comparacion_bool ')' THEN RETURN expresion {agregarError(errores_sintacticos,"Error","Se espera que la expresion este entre parentesis y un ';' al final");}
                 | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' '}' {agregarError(erroes_sintacticos,"Error","Se espera un ';' al final de '}'");}
-                | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera '}' al final para determinar el cierre");}
+                //| WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera '}' al final para determinar el cierre");}
                 | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN expresion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera que la expresion este entre parentesis");}
                 | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN expresion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' al final y que la expresion se encuentre entre parentesis");}
-                | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' ';' {agrearError(errores_sintacticos,"Error","Se espera '}' luego de la expresion para generar el cierre");}*/
+                //| WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' ';' {agrearError(errores_sintacticos,"Error","Se espera '}' luego de la expresion para generar el cierre");}*/
 ;
 
 iteracion_while_funcion: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
                 //Errores
-                /*| WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
-                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera un ';' y un '}' al final ");}
+                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
+                //| WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera un ';' y un '}' al final ");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del RETURN");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion {agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion, falta '}' y un ';'");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion ';'{agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion y un '}' para el cierre");}
-                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion '}' {agregarError(errores_sintacticos,"Error","Se espera los parentesis en la expresion y un ';' a lo ultimo");}
+                //| WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion '}' {agregarError(errores_sintacticos,"Error","Se espera los parentesis en la expresion y un ';' a lo ultimo");}
 
-                | ID WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';' {agregarError(errores_sintacticos,"Error","")}
+                //| ID WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera el ':' entre ID y WHILE")}
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
-                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera un ';' y un '}' al final ");}
-                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del RETURN");}
+                //| ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera un ';' y un '}' al final ");}
+                //| ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del RETURN");}
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion {agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion, falta '}' y un ';'");}
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion ';'{agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion y un '}' para el cierre");}
-                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion '}' {agregarError(errores_sintacticos,"Error","Se espera los parentesis en la expresion y un ';' a lo ultimo");}*/
+                //| ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN expresion '}' {agregarError(errores_sintacticos,"Error","Se espera los parentesis en la expresion y un ';' a lo ultimo");}
 ;
 
 
@@ -200,10 +202,10 @@ sentencia_ejecutable: asignacion ';'
                 | iteracion_while ';'
                 | error ';'
                 //ERRORES
-                /*| seleccion {agregarError(errores_sintacticos,"Error","Se espera un ';' ");}
-                | asignacion {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
-                | impresion {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
-                | seleccion_when {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
+                //| seleccion {agregarError(errores_sintacticos,"Error","Se espera un ';' ");}
+                //| asignacion {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
+                //|impresion {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
+                /*| seleccion_when {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
                 | iteracion_while {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
                 | declaracion_variables {agregarError(errores_sintacticos,"Error","Se espera un ';'");}
                 | break {agregarError(errores_sintacticos,"Error","Se espera un ';'");}*/
@@ -213,12 +215,12 @@ seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control '}' ';'
             | WHEN '(' comparacion_bool ')' THEN sentencia_ejecutable ';'
             // me dice que tengo que incorporar en lista de palabras reservadas a la palabra const
             // faltan los errores
-            /*| WHEN '(' comparacion_bool ')' THEN {agregarError(errores_sintacticos,"Error","Se espera una ejecucion ';' ");}
+            | WHEN '(' comparacion_bool ')' THEN {agregarError(errores_sintacticos,"Error","Se espera una ejecucion y un ';' ");}
             | WHEN '(' ')' THEN '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool dentro de '(' ')' ");}
             | WHEN '(' comparacion_bool ')' '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera un THEN luego de la comparacion_bool");}
-            | WHEN '(' comparacion_bool ')' THEN ; {agregarError(errores_sintacticos,"Error","Se espera una sentencia_ejecutable luego del THEN");}
+            //| WHEN '(' comparacion_bool ')' THEN ';' {agregarError(errores_sintacticos,"Error","Se espera una sentencia_ejecutable luego del THEN");}
             | WHEN comparacion_bool THEN '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre encerrada con '(' ')' ");}
-            | WHEN THEN '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool encerrado entre '(' ')' ");}*/
+            | WHEN THEN '{' ejecucion_control  '}' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool encerrado entre '(' ')' ");}
 ;
 
 iteracion_while:  WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
@@ -227,32 +229,38 @@ iteracion_while:  WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejec
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
 
                     // desarrollando los errores
-                /*| WHILE ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
+                | WHILE ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
                 | WHILE '(' comparacion_bool ')' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera ':' luego de la comparacion_bool");}
-                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego del cierre '}' posterior a la ejecucion");}
-                | WHILE '(' comparacion_bool ')' ':' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una asignacion luego del ':' ");}
+               // | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego del cierre '}' posterior a la ejecucion");}
+                //| WHILE '(' comparacion_bool ')' ':' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una asignacion luego del ':' ");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' '}' ';' {agregarError(errores_sintactico,"Error","Se espera una ejecucion luego de la ASIGNACION");}
                 | WHILE '(' ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una comparacion_bool dentro de los '(' ')' ");}
                 | WHILE '(' comparacion_bool ')' ':' '(' ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintactico,"Error","Se espera una asignacion dentro de los '(' ')'  ");}
-                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una ejecucion");}
-
-                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable {agregarError(errores_sintacticos,"Error","Se espera un ';' al final");}
+                //| WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una ejecucion");}
+               // | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable {agregarError(errores_sintacticos,"Error","Se espera un ';' al final");}
                 | WHILE '(' comparacion_bool ')' '(' asignacion ')' sentencia_ejecutable ';' {agregarError(errores_sintacticos,"Error","Se espera un ':' luego de la comparacion_bool");}
                 | WHILE '(' comparacion_bool ')' ':' sentencia_ejecutable ';' {agregarError(errores_sintacticos,"Error","Se espera una asignacion luego del ':' ");}
                 | WHILE '(' comparacion_bool ')' ':' '(' ')' sentencia_ejecutable ';' {agregarError(errores_sintacticos,"Error","Se espera una asignacion entre los parentesis");}
-                | WHILE '(' comparacion_bool ')' ':' asignacion sentencia_ejecutable ';' {agregarError(errores_sintacticos,"Error","Se espera que la asignacion se encuentre entre parentesis");}*/
+                | WHILE '(' comparacion_bool ')' ':' asignacion sentencia_ejecutable ';' {agregarError(errores_sintacticos,"Error","Se espera que la asignacion se encuentre entre parentesis");}
 
 ;
 seleccion_iteracion: IF condicion_salto_if then_seleccion_iteracion ENDIF
     | IF condicion_salto_if then_seleccion_iteracion else_seleccion_iteracion ENDIF
     // falta errores por hacer
-
-
-
+    | IF condicion_salto_if then_seleccion_iteracion {agregarError(errores_sintacticos,"Error","Se espera un ENDIF al final del IF");}
+    | IF condicion_salto_if ENDIF {agregarError(errores_sintacticos,"Error","Se espera que haya then_seleccion_iteracion ");}
+    //| IF condicion_salto_if else_seleccion_iteracion {agregarError(errores_sintacticos,"Error","Se espera que haya un ENDIF al final ");}
+    | IF then_seleccion_iteracion ENDIF {agregarError(errores_sintacticos,"Error","Se espera que haya una condicion_salto_if");}
+    | IF else_seleccion_iteracion ENDIF {agregarError(errores_sintacticos,"Error","Se espera que haya una condicion_salto_if");}
 
 
 then_seleccion_iteracion: THEN '{' ejecucion_iteracion '}' ';'
     | THEN break ';'
+    | THEN ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera que antes de la ejecucucion_iteracion haya una { ");}
+    | THEN '{' ejecucion_iteracion ';' {agregarError(errores_sintacticos,"Error","Se espera que luego de la ejecucion_iteracion haya una llave");}
+    //| THEN '{' ejecucion_iteracion '}' {agregarError(errores_sintacticos,"Error","Se espera que luego de cerrar la llave exista un ';'");}
+
+
 ;
 
 
@@ -275,14 +283,14 @@ else_seleccion_iteracion: ELSE '{' ejecucion_iteracion '}' ';'
 seleccion_when_iteracion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion '}' ';'
                 | WHEN '(' comparacion_bool ')' THEN break ';'
                 // falta errores por hacer
-                /*| WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
+                //| WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
                 | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion ';' {agregarError(errores_sintacticos,"Error","Se espera un '}' antes del ';'");}
-                | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion  {agregarError(errores_sintacticos,"Error","Se espera un '}' y un ';'");}
-                | WHEN '(' comparacion_bool ')' THEN ejecucion_iteracion ';' {agregarError(errores_sintanticos,"Error","Se espera que la ejecucion_iteracion se encuentre en { } ");}
+                //| WHEN '(' comparacion_bool ')' THEN '{' ejecucion_iteracion  {agregarError(errores_sintacticos,"Error","Se espera un '}' y un ';'");}
+                //| WHEN '(' comparacion_bool ')' THEN ejecucion_iteracion ';' {agregarError(errores_sintanticos,"Error","Se espera que la ejecucion_iteracion se encuentre en { } ");}
                 | WHEN '(' ')' THEN '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera que haya una comparacion_bool entre los parentesis");}
-                | WHEN '(' comparacion_bool ')' THEN break {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de break");}
+               // | WHEN '(' comparacion_bool ')' THEN break {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de break");}
                 | WHEN '(' ')' THEN break ';' {agregarError(errores_sintacticos,"Error","Se espera que haya una comparacion_bool entre parentesis");}
-                | WHEN comparacion_bool THEN break ';' {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre entre parentesis");}*/
+                | WHEN comparacion_bool THEN break ';' {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre entre parentesis");}
 ;
 
 ejecucion_iteracion: ejecucion_iteracion sentencia_iteracion
@@ -315,10 +323,10 @@ seleccion: IF condicion_salto_if then_seleccion ENDIF
 then_seleccion: THEN '{' ejecucion_control '}' ';'
     | THEN sentencia_ejecutable ';'
     // ERRORES
-    /*| THEN '{' ejecucion_control {agregarError(errores_sintacticos,"Error","Se espera un '}' al de las sentencias del THEN");}
+    | THEN '{' ejecucion_control {agregarError(errores_sintacticos,"Error","Se espera un '}' al de las sentencias del THEN");}
     | THEN '{' '}' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del THEN");}
     | THEN ejecucion_control '}' {agregarError(errores_sintacticos,"Error","Se espera un '{' para comenzar el THEN");}
-    | THEN '{' ejecucion_control '}' ';' {agregarError(errores_sintacticos,"Error","Se espera un ;");}*/
+    //| THEN '{' ejecucion_control '}' ';' {agregarError(errores_sintacticos,"Error","Se espera un ;");}
 ;
 
 else_seleccion: ELSE '{' ejecucion_control '}' ';'
@@ -359,9 +367,9 @@ definicion_constante: CONST lista_asignaciones
 
 asignacion: ID ASIGNACION expresion
     // ERRORES
-    /*| ASIGNACION expresion {agregarError(errores_sintacticos,"Error","Se espera un ID en el comienzo de la ASIGNACION");}
-    | ID expresion {agregarError(errores_sintacticos,"Error","Se espera la ASIGNACION entre la ID y la expresion");}
-    | ID ASIGNACION {agregarError(errores_sintacticos,"Error","Se espera una expresion del lado derecho de la asignacion");}*/
+    //| ASIGNACION expresion {agregarError(errores_sintacticos,"Error","Se espera un ID en el comienzo de la ASIGNACION");}
+    // ID expresion {agregarError(errores_sintacticos,"Error","Se espera la ASIGNACION entre la ID y la expresion");}
+    //| ID ASIGNACION {agregarError(errores_sintacticos,"Error","Se espera una expresion del lado derecho de la asignacion");}
 ;
 
 expresion: expresion '+' termino
