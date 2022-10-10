@@ -96,6 +96,8 @@ sentencia_funcion: sentencia
 
 seleccion_funcion: IF condicion_salto_if then_seleccion_funcion ENDIF
     | IF condicion_salto_if then_seleccion_funcion else_seleccion_funcion ENDIF
+    | IF condicion_salto_if then_seleccion else_seleccion_funcion ENDIF
+    | IF condicion_salto_if then_seleccion_funcion else_seleccion ENDIF
     // falta los errores
 ;
 then_seleccion_funcion: THEN '{' ejecucion_control RETURN '(' expresion ')' ';' '}' ';'
@@ -165,9 +167,9 @@ seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control '}' ';'
 ;
 
 iteracion_while:  WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
-                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
+                | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable
                 | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';'
-                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable ';'
+                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' sentencia_ejecutable 
                 // desarrollando los errores
                 | WHILE ':' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
                 | WHILE '(' comparacion_bool ')' '(' asignacion ')' '{' ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera ':' luego de la comparacion_bool");}
@@ -192,13 +194,11 @@ then_seleccion_iteracion: THEN '{' ejecucion_iteracion '}' ';'
     | THEN break ';'
     | THEN ejecucion_iteracion '}' ';' {agregarError(errores_sintacticos,"Error","Se espera que antes de la ejecucucion_iteracion haya una { ");}
     | THEN '{' ejecucion_iteracion ';' {agregarError(errores_sintacticos,"Error","Se espera que luego de la ejecucion_iteracion haya una llave");}
-
-
 ;
 
 
 else_seleccion_iteracion: ELSE '{' ejecucion_iteracion '}' ';'
-    | ELSE RETURN '(' expresion ')' ';'
+    | ELSE break ';'
     // ERRRORES
     | ELSE RETURN '(' ')' ';' {agregarError(errores_sintacticos,"Error","Se espera que haya una expresion entre los parentesis");}
     | ELSE RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera que haya un ';' luego de la expresion ");}
@@ -229,7 +229,7 @@ sentencia_iteracion: asignacion ';'
                 | seleccion_iteracion ';' {addEstructura("if en iteracion");}
                 | impresion ';' {addEstructura("impresion");}
                 | seleccion_when_iteracion ';' {addEstructura("when en iteracion");}
-                | iteracion_while ';' {addEstructura("while");}
+                | iteracion_while {addEstructura("while");}
                 | break ';' {addEstructura("break");}
 ;
 
@@ -249,7 +249,7 @@ seleccion: IF condicion_salto_if then_seleccion ENDIF
 
 
 then_seleccion: THEN '{' ejecucion_control '}' ';'
-    | THEN sentencia_ejecutable ';'
+    | THEN sentencia_ejecutable
     // ERRORES
     | THEN '{' ejecucion_control {agregarError(errores_sintacticos,"Error","Se espera un '}' al de las sentencias del THEN");}
     | THEN '{' '}' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del THEN");}
@@ -257,7 +257,7 @@ then_seleccion: THEN '{' ejecucion_control '}' ';'
 ;
 
 else_seleccion: ELSE '{' ejecucion_control '}' ';'
-    | ELSE sentencia_ejecutable ';'
+    | ELSE sentencia_ejecutable
   // ERRORES
     | ELSE '{' '}' ';' {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del ELSE");}
     | ELSE ejecucion_control'}' ';' {agregarError(errores_sintacticos,"Error","Se espera un '{' luego del ELSE");}
@@ -392,7 +392,7 @@ int yylex() {
             yylval = new ParserVal(t.getAtributo());
         }
     }
-    System.out.println("YYLEX - " + tok);
+    //System.out.println("YYLEX - " + tok);
     return tok;
 }
 
