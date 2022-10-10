@@ -3,22 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="31d4459a-f2c4-48e1-9156-f42d579c7397" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/archivos/acciones_semanticas.txt" beforeDir="false" afterPath="$PROJECT_DIR$/archivos/acciones_semanticas.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/archivos/datos_estados.txt" beforeDir="false" afterPath="$PROJECT_DIR$/archivos/datos_estados.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ejemplo_programas/programa_prueba.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ejemplo_programas/programa_prueba.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compilador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compilador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica10.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica10.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/PalabrasReservadas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica5.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica5.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemanticaError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemanticaError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gramatica.y" beforeDir="false" afterPath="$PROJECT_DIR$/src/gramatica.y" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa04216" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa11060" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa12464" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa12624" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa15996" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa19128" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa19152" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yacc.oa19412" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

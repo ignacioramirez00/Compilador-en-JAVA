@@ -1,5 +1,18 @@
 program {
-	if ( lexa = 10 ) {
-		lexa =: 2.0D2;
+	ui8 lexa;
+	fun funcion1():ui8 {
+		if ( lexa = 2 ) then {
+			lexa =: 4;
+		};
+		end_if;
+		return (lexa);
+	};
+	ui8 lexa2;
+	fun funcion2():ui8 {
+		if ( lexa2 = 4 ) then {
+			lexa2 =: 8;
+		};
+		end_if;
+		return (lexa2);
 	};
 };

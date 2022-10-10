@@ -346,17 +346,19 @@ public class AnalisisLexico {
     public static Token getToken(List<Character> buffer) {
         estadoActual = 0;
         boolean tieneToken = false;
-        Token t = null;
+        Token t = new Token(0,null);
         while (tieneToken == false) {
             if (!buffer.isEmpty()) {
                 Character c = buffer.get(0);
                 t = cambiarEstado(c,buffer);
                 if (t != null) {
                     tieneToken = true;
+                    listaTokens.add(t);
                 }
+            } else {
+                tieneToken = true;
             }
         }
-        listaTokens.add(t);
         return t;
     }
 }

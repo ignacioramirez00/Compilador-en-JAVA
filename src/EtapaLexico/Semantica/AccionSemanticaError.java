@@ -13,6 +13,7 @@ public class AccionSemanticaError implements AccionSemantica {
 
     @Override
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
+        System.out.println(token.toString());
         Character c = buffer.remove(0);
         token = new StringBuilder();
         AnalisisLexico.agregarError("lexico","se produjo un error de semantica.");

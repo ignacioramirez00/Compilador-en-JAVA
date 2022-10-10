@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 %}
 
-%token ID CTE CADENA IF THEN ELSE ENDIF OUT FUN RETURN BREAK WHEN WHILE MAYOR_IGUAL MENOR_IGUAL ASIGNACION DISTINTO ENTERO DOUBLE CONST DEFER // AGREGAR CONST
+%token ID CTE CADENA IF THEN ELSE ENDIF OUT FUN RETURN BREAK WHEN WHILE MAYOR_IGUAL MENOR_IGUAL ASIGNACION DISTINTO ENTERO DOUBLE CONST DEFER
 
 %left '+' '-'
 %left '*' '/'
@@ -19,7 +19,7 @@ import java.util.Map;
 
 %% // declaracion del programa principal
 
-program: header_program '{' ejecucion '}' {addEstructura("programa");}
+program: header_program '{' ejecucion '}' ';' {addEstructura("programa");}
         | header_program {addEstructura("programa sin ejecucion");}
         | header_program '{' ejecucion {agregarError(errores_sintacticos,"Error","Se esperaba un '}' al final del programa");}
         | header_program '{' '}' {agregarError(errores_sintacticos,"Error","Se esperaba una sentencia de ejecucion");}
@@ -145,7 +145,7 @@ sentencia: sentencia_ejecutable
 ;
 
 ;
-sentencia_ejecutable: asignacion ';' {addEstructura("asignacion");}
+sentencia_ejecutable: asignacion ';' 
                 | seleccion ';' {addEstructura("if");}
                 | impresion ';' {addEstructura("impresion");}
                 | seleccion_when ';' {addEstructura("when");}
@@ -289,10 +289,11 @@ comparador: '>'
 
 lista_asignaciones: lista_asignaciones asignacion
     | asignacion
-
+;
 definicion_constante: CONST lista_asignaciones
+;
 
-asignacion: ID ASIGNACION expresion {addEstructura("asignacion");}
+asignacion: ID ASIGNACION expresion {addEstructura($1.sval + " asignacion " + $3.sval);}
 ;
 
 expresion: expresion '+' termino
@@ -379,15 +380,19 @@ public static void agregarError(List<String> errores, String tipo, String error)
 
 
 int yylex() {
-    System.out.println("YYLEX");
     int tok = 0;
+    //System.out.print("YYLEX, " + buffer.get(0) + " - ");
     Token t = AL.getToken(buffer);
     if (t != null) {
+        if (t.getId() == 0) {
+                return 0;
+        }
         tok = t.getId();
         if (t.getAtributo() != null) {
             yylval = new ParserVal(t.getAtributo());
         }
     }
+    System.out.println("YYLEX - " + tok);
     return tok;
 }
 

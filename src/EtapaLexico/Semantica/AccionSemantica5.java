@@ -43,6 +43,9 @@ public class AccionSemantica5 implements AccionSemantica {
         if(c.equals(';')){
             return new Token(59,null);
         }
+        if(c.equals(':')){
+            return new Token(58,null);
+        }
         return null;
     }
 

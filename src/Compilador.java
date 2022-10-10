@@ -37,6 +37,7 @@ public class Compilador {
         tokens.put(125, "}");
         tokens.put(44, ",");
         tokens.put(59, ";");
+        tokens.put(58, ":");
         tokens.put(21,"palabra reservada");
     }
 
