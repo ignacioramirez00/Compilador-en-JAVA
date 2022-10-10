@@ -89,7 +89,7 @@ bloque_funcion: bloque_funcion sentencia_funcion
 ;
 
 sentencia_funcion: sentencia
-        | seleccion_funcion {addEstructura("if en funcion");}
+        | seleccion_funcion ';' {addEstructura("if en funcion");}
         | seleccion_when_funcion {addEstructura("when en funcion");}
         | iteracion_while_funcion {addEstructura("while en funcion");}
 ;
@@ -98,15 +98,15 @@ seleccion_funcion: IF condicion_salto_if then_seleccion_funcion ENDIF
     | IF condicion_salto_if then_seleccion_funcion else_seleccion_funcion ENDIF
     // falta los errores
 ;
-then_seleccion_funcion: THEN '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
+then_seleccion_funcion: THEN '{' ejecucion_control RETURN '(' expresion ')' ';' '}' ';'
     | THEN RETURN '(' expresion ')' ';'
 ;
 
-else_seleccion_funcion: ELSE '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
+else_seleccion_funcion: ELSE '{' ejecucion_control RETURN '(' expresion ')' ';' '}' ';'
     | ELSE RETURN '(' expresion ')' ';'
 ;
 
-seleccion_when_funcion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' '}' ';'
+seleccion_when_funcion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN '(' expresion ')' ';' '}' ';'
                 | WHEN '(' comparacion_bool ')' THEN RETURN '(' expresion ')' ';'
                 //ERRORES
                 | WHEN '(' comparacion_bool ')' THEN RETURN '(' expresion ')' {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la expresion");}
@@ -117,8 +117,8 @@ seleccion_when_funcion: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control
                 | WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control RETURN expresion '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' al final y que la expresion se encuentre entre parentesis");}
 ;
 
-iteracion_while_funcion: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
-                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' ';'
+iteracion_while_funcion: WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' ';' '}' ';'
+                | ID ':' WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' ';' '}' ';'
                 //Errores
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '(' expresion ')' '}' {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
                 | WHILE '(' comparacion_bool ')' ':' '(' asignacion ')' '{' ejecucion_iteracion RETURN '}' ';' {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del RETURN");}
@@ -149,8 +149,8 @@ sentencia_ejecutable: asignacion ';'
                 | seleccion ';' {addEstructura("if");}
                 | impresion ';' {addEstructura("impresion");}
                 | seleccion_when ';' {addEstructura("when");}
-                | iteracion_while ';' {addEstructura("while");}
-                | error ';'
+                | iteracion_while {addEstructura("while");}
+                | error ';' {addEstructura("error");}
 ;
 
 seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control '}' ';'
@@ -225,7 +225,7 @@ ejecucion_iteracion: ejecucion_iteracion sentencia_iteracion
                 |sentencia_iteracion
 ;
 
-sentencia_iteracion: asignacion ';' {addEstructura("asignacion");}
+sentencia_iteracion: asignacion ';'
                 | seleccion_iteracion ';' {addEstructura("if en iteracion");}
                 | impresion ';' {addEstructura("impresion");}
                 | seleccion_when_iteracion ';' {addEstructura("when en iteracion");}
@@ -329,7 +329,7 @@ factor: combinacion_terminales
 
 
 
-impresion: OUT'(' CADENA ')'';'
+impresion: OUT'(' CADENA ')'
     | OUT '(' ')' {agregarError(errores_sintacticos,"Error","Se espera una cadena dentro del OUT");}
     | OUT {agregarError(errores_sintacticos,"Error","Se espera () con una cadena dentro");}
     | OUT CADENA {agregarError(errores_sintacticos,"Error","Se espera un que la CADENA se encuentre entre parentesis");}

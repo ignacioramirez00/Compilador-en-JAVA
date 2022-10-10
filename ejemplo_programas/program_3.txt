@@ -1,13 +1,13 @@
-program_3{
-
-  fun funcion1 (ui8 y) : ui8
-  {
-      ui8 x =: 2;
-      ui8 t =: 3;
-      return (x + t + y);
-  }
-  
-  ui8 resultado;
-  resultado=:funcion1(5);
-  OUT('el resultado de la funcion1 fue dado');
-}
+program_3 {
+	fun funcion1(ui8 y):ui8
+	{
+		ui8 x;
+		x=:2;
+		ui8 t;
+		t =: 3;
+		return (x + t + y);
+	};
+	ui8 resultado;
+	resultado =: funcion1(5);
+	out('el resultado de la funcion1 fue dado');
+};
