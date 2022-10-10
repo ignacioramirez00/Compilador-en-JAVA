@@ -19,13 +19,14 @@
 //#line 2 "gramatica.y"
 import EtapaLexico.Semantica.*;
 import EtapaLexico.AnalisisLexico;
-import EtapaLexico.Token;
-import Compilador;
+import EtapaLexico.Lexema;
+import EtapaLexico.Tokens.Token;
+import EtapaLexico.TablaSimbolos;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-//#line 26 "Parser.java"
+//#line 27 "Parser.java"
 
 
 
@@ -980,20 +981,36 @@ final static String yyrule[] = {
 "impresion : OUT CADENA",
 };
 
-//#line 423 "gramatica.y"
+//#line 339 "gramatica.y"
 
 
 public static final String ERROR = "Error";
 public static final String WARNING = "Warning";
 
-//public static List<Character> buffer = new ArrayList();
-public static final List<String> errores_sintacticos = new ArrayList<>();
-public static final List<Character> buffer = new ArrayList<>();
+public static List<String> errores_sintacticos = new ArrayList<>();
+public static List<Character> buffer = new ArrayList<>();
+public static List<String> estructura = new ArrayList<>();
 public static AnalisisLexico AL;
+public static boolean errores_compilacion = false;
 
 void yyerror(String mensaje) {
         // funcion utilizada para imprimir errores que produce yacc
         System.out.println("Error yacc: " + mensaje);
+}
+public void addEstructura(String s){
+    estructura.add(s);
+}
+
+public List<String> getEstructura() {
+    return estructura;
+}
+
+public List<String> getErrores() {
+    return errores_sintacticos;
+}
+
+public static void agregarEstructura(String s){
+    estructura.add(s);
 }
 
 public static void agregarError(List<String> errores, String tipo, String error) {
@@ -1008,23 +1025,13 @@ public static void agregarError(List<String> errores, String tipo, String error)
 
 
 int yylex() {
-    //AnalisisLexico AL = new AnalisisLexico(); // ESTO ESTA MAL ? CADA VEZ QUE ENTRE A YYLEX VA A CREAR UNA TABLA DE SIMBOLOS NUEVA
+    System.out.println("YYLEX");
     int tok = 0;
-    AL.estado_actual = 0;
-    boolean tieneToken = false;
-    while (tieneToken == false) {
-        if (!buffer.isEmpty) {
-            Character c = buffer.get(0);
-            Token t = AL.cambiarEstado(c,buffer);
-            if (t != null) {
-                tieneToken = true;
-                tok = t.getId();
-                if (t.getAtributo() != null) {
-                    yylval = new ParserVal(t.getAtributo());
-                }
-            }
-        } else {
-            tieneToken = true;
+    Token t = AL.getToken(buffer);
+    if (t != null) {
+        tok = t.getId();
+        if (t.getAtributo() != null) {
+            yylval = new ParserVal(t.getAtributo());
         }
     }
     return tok;
@@ -1046,23 +1053,27 @@ public String negarConstante(String c) { // AHORA?
     if (c.contains(".")) {
         Double d = getDouble(c);
         if ((d > Math.pow(-1.7976931348623157,308) && d < Math.pow(-2.2250738585072014,-308))){
-            TablaSimbolos.negarConstante(ptr,c);
+            if (TablaSimbolos.obtenerSimbolo(nuevo) == null){ // si no es null es porque ya se agrego anteriormente la misma constante.
+                Lexema lexema = new Lexema(d);
+                TablaSimbolos.agregarSimbolo(nuevo,lexema); // falta chequear que no se este usando la misma constante positiva y asi borrarla.
+            }
         } else {
-            agregarError(errores_sintacticos, "ERROR", "El numero " + constante + " esta fuera de rango.");
+            agregarError(errores_sintacticos, "ERROR", "El numero " + c + " esta fuera de rango.");
             nuevo = "";
         }
     } else {
-        agregarError(errores_sintacticos, "WARNING", "El numero " + constante + " fue truncado al valor minimo (0), ya que es menor que este mismo");
+        agregarError(errores_sintacticos, "WARNING", "El numero " + c + " fue truncado al valor minimo (0), ya que es menor que este mismo");
         nuevo = "0";
         TablaSimbolos.truncarEntero(ptr,nuevo);
     }
+    return nuevo;
 }
 
-public static void main(String[] args) {
-    AL = new AnalisisLexico();
-    buffer = Compilador.crearBuffer();
+public void setSintactico(List<Character> buffer, AnalisisLexico AL) {
+    this.AL = AL;
+    this.buffer = buffer;
 }
-//#line 994 "Parser.java"
+//#line 1005 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1216,327 +1227,418 @@ boolean doaction;
     switch(yyn)
       {
 //########## USER-SUPPLIED ACTIONS ##########
-case 3:
+case 1:
+//#line 22 "gramatica.y"
+{addEstructura("programa");}
+break;
+case 2:
 //#line 23 "gramatica.y"
+{addEstructura("programa sin ejecucion");}
+break;
+case 3:
+//#line 24 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se esperaba un '}' al final del programa");}
 break;
 case 4:
-//#line 24 "gramatica.y"
+//#line 25 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se esperaba una sentencia de ejecucion");}
 break;
 case 8:
-//#line 40 "gramatica.y"
+//#line 38 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un tipo para declaracion_variable");}
 break;
 case 9:
-//#line 41 "gramatica.y"
+//#line 39 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la declaracion");}
 break;
+case 12:
+//#line 46 "gramatica.y"
+{addEstructura("declaracion variables");}
+break;
+case 13:
+//#line 47 "gramatica.y"
+{addEstructura("declaracion funcion");}
+break;
+case 14:
+//#line 48 "gramatica.y"
+{addEstructura("diferimiento");}
+break;
 case 16:
-//#line 59 "gramatica.y"
+//#line 52 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una ejecucion_funcion");}
 break;
 case 19:
-//#line 64 "gramatica.y"
+//#line 57 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera el nombre de la funcion");}
 break;
 case 20:
-//#line 65 "gramatica.y"
+//#line 58 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera el nombre de la funcion");}
 break;
 case 21:
-//#line 67 "gramatica.y"
+//#line 59 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera el ':' luego de asignar los parametros");}
 break;
 case 25:
-//#line 78 "gramatica.y"
+//#line 70 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera el tipo del parametro");}
 break;
 case 26:
-//#line 79 "gramatica.y"
+//#line 71 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera el nombre del parametro");}
 break;
 case 31:
-//#line 90 "gramatica.y"
+//#line 82 "gramatica.y"
 {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion");}
 break;
+case 35:
+//#line 92 "gramatica.y"
+{addEstructura("if en funcion");}
+break;
+case 36:
+//#line 93 "gramatica.y"
+{addEstructura("when en funcion");}
+break;
+case 37:
+//#line 94 "gramatica.y"
+{addEstructura("while en funcion");}
+break;
 case 46:
-//#line 146 "gramatica.y"
+//#line 112 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un ';' al final de la expresion");}
 break;
 case 47:
-//#line 147 "gramatica.y"
+//#line 113 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera la expresion de retorno");}
 break;
 case 48:
-//#line 148 "gramatica.y"
+//#line 114 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una expresion de retorno y un ';' al final");}
 break;
 case 49:
-//#line 151 "gramatica.y"
-{agregarError(erroes_sintacticos,"Error","Se espera un ';' al final de '}'");}
+//#line 115 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera un ';' al final de '}'");}
 break;
 case 50:
-//#line 153 "gramatica.y"
+//#line 116 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que la expresion este entre parentesis");}
 break;
 case 51:
-//#line 154 "gramatica.y"
+//#line 117 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un ';' al final y que la expresion se encuentre entre parentesis");}
 break;
 case 54:
-//#line 161 "gramatica.y"
+//#line 123 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
 break;
 case 55:
-//#line 163 "gramatica.y"
+//#line 124 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del RETURN");}
 break;
 case 56:
-//#line 164 "gramatica.y"
+//#line 125 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion, falta '}' y un ';'");}
 break;
 case 57:
-//#line 165 "gramatica.y"
+//#line 126 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion y un '}' para el cierre");}
 break;
 case 58:
-//#line 169 "gramatica.y"
+//#line 127 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un ';' luego de '}' ");}
 break;
 case 59:
-//#line 172 "gramatica.y"
+//#line 128 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion, falta '}' y un ';'");}
 break;
 case 60:
-//#line 173 "gramatica.y"
+//#line 129 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","falta los parentesis en la expresion y un '}' para el cierre");}
 break;
+case 68:
+//#line 148 "gramatica.y"
+{addEstructura("asignacion");}
+break;
+case 69:
+//#line 149 "gramatica.y"
+{addEstructura("if");}
+break;
+case 70:
+//#line 150 "gramatica.y"
+{addEstructura("impresion");}
+break;
+case 71:
+//#line 151 "gramatica.y"
+{addEstructura("when");}
+break;
+case 72:
+//#line 152 "gramatica.y"
+{addEstructura("while");}
+break;
 case 76:
-//#line 218 "gramatica.y"
+//#line 160 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una ejecucion y un ';' ");}
 break;
 case 77:
-//#line 219 "gramatica.y"
+//#line 161 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool dentro de '(' ')' ");}
 break;
 case 78:
-//#line 220 "gramatica.y"
+//#line 162 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un THEN luego de la comparacion_bool");}
 break;
 case 79:
-//#line 222 "gramatica.y"
+//#line 163 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre encerrada con '(' ')' ");}
 break;
 case 80:
-//#line 223 "gramatica.y"
+//#line 164 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool encerrado entre '(' ')' ");}
 break;
 case 85:
-//#line 232 "gramatica.y"
+//#line 172 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool antes del ':' ");}
 break;
 case 86:
-//#line 233 "gramatica.y"
+//#line 173 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera ':' luego de la comparacion_bool");}
 break;
 case 87:
-//#line 236 "gramatica.y"
-{agregarError(errores_sintactico,"Error","Se espera una ejecucion luego de la ASIGNACION");}
+//#line 174 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera una ejecucion luego de la ASIGNACION");}
 break;
 case 88:
-//#line 237 "gramatica.y"
-{agregarError(errores_sintactico,"Error","Se espera una comparacion_bool dentro de los '(' ')' ");}
+//#line 175 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera una comparacion_bool dentro de los '(' ')' ");}
 break;
 case 89:
-//#line 238 "gramatica.y"
-{agregarError(errores_sintactico,"Error","Se espera una asignacion dentro de los '(' ')'  ");}
+//#line 176 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera una asignacion dentro de los '(' ')'  ");}
 break;
 case 90:
-//#line 241 "gramatica.y"
+//#line 177 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un ':' luego de la comparacion_bool");}
 break;
 case 91:
-//#line 242 "gramatica.y"
+//#line 178 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una asignacion luego del ':' ");}
 break;
 case 92:
-//#line 243 "gramatica.y"
+//#line 179 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una asignacion entre los parentesis");}
 break;
 case 93:
-//#line 244 "gramatica.y"
+//#line 180 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que la asignacion se encuentre entre parentesis");}
 break;
 case 96:
-//#line 250 "gramatica.y"
+//#line 185 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un ENDIF al final del IF");}
 break;
 case 97:
-//#line 251 "gramatica.y"
+//#line 186 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya then_seleccion_iteracion ");}
 break;
 case 98:
-//#line 253 "gramatica.y"
+//#line 187 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya una condicion_salto_if");}
 break;
 case 99:
-//#line 254 "gramatica.y"
+//#line 188 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya una condicion_salto_if");}
 break;
 case 102:
-//#line 259 "gramatica.y"
+//#line 193 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que antes de la ejecucucion_iteracion haya una { ");}
 break;
 case 103:
-//#line 260 "gramatica.y"
+//#line 194 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que luego de la ejecucion_iteracion haya una llave");}
 break;
 case 106:
-//#line 270 "gramatica.y"
+//#line 203 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya una expresion entre los parentesis");}
 break;
 case 107:
-//#line 271 "gramatica.y"
+//#line 204 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya un ';' luego de la expresion ");}
 break;
 case 108:
-//#line 272 "gramatica.y"
+//#line 205 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que luego del return haya una expresion entre parentesis");}
 break;
 case 109:
-//#line 273 "gramatica.y"
+//#line 206 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que luego del return haya una expresion entre parentesis y un ';'al final");}
 break;
 case 110:
-//#line 274 "gramatica.y"
+//#line 207 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya un ';' luego de '}' ");}
 break;
 case 111:
-//#line 275 "gramatica.y"
+//#line 208 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya una '}' y un ';' ");}
 break;
 case 112:
-//#line 276 "gramatica.y"
+//#line 209 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya que la ejecucion_iteracion se encuentre entre { }");}
 break;
 case 115:
-//#line 287 "gramatica.y"
+//#line 218 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un '}' antes del ';'");}
 break;
 case 116:
-//#line 290 "gramatica.y"
+//#line 219 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya una comparacion_bool entre los parentesis");}
 break;
 case 117:
-//#line 292 "gramatica.y"
+//#line 220 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que haya una comparacion_bool entre parentesis");}
 break;
 case 118:
-//#line 293 "gramatica.y"
+//#line 221 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre entre parentesis");}
 break;
+case 121:
+//#line 228 "gramatica.y"
+{addEstructura("asignacion");}
+break;
+case 122:
+//#line 229 "gramatica.y"
+{addEstructura("if en iteracion");}
+break;
+case 123:
+//#line 230 "gramatica.y"
+{addEstructura("impresion");}
+break;
+case 124:
+//#line 231 "gramatica.y"
+{addEstructura("when en iteracion");}
+break;
+case 125:
+//#line 232 "gramatica.y"
+{addEstructura("while");}
+break;
+case 126:
+//#line 233 "gramatica.y"
+{addEstructura("break");}
+break;
 case 131:
-//#line 315 "gramatica.y"
+//#line 243 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se esperan un THEN");}
 break;
 case 132:
-//#line 316 "gramatica.y"
-{agregarError(errores_sintacticos,"Error","Se espera un ELSE")}
+//#line 244 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera un ELSE");}
 break;
 case 133:
-//#line 317 "gramatica.y"
-{agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del THEN");}
+//#line 245 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera bloque de sentencias luego del THEN");}
 break;
 case 134:
-//#line 318 "gramatica.y"
-{agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del ELSE");}
+//#line 246 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera bloque de sentencias luego del ELSE");}
 break;
 case 135:
-//#line 319 "gramatica.y"
-{agregarError(errores_sintactico,"Error","Se espera bloque de sentencias luego del THEN");}
+//#line 247 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera bloque de sentencias luego del THEN");}
 break;
 case 138:
-//#line 326 "gramatica.y"
+//#line 254 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un '}' al de las sentencias del THEN");}
 break;
 case 139:
-//#line 327 "gramatica.y"
+//#line 255 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del THEN");}
 break;
 case 140:
-//#line 328 "gramatica.y"
+//#line 256 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un '{' para comenzar el THEN");}
 break;
 case 143:
-//#line 335 "gramatica.y"
+//#line 262 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera sentencias dentro del cuerpo del ELSE");}
 break;
 case 144:
-//#line 336 "gramatica.y"
+//#line 263 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un '{' luego del ELSE");}
 break;
 case 146:
-//#line 341 "gramatica.y"
+//#line 268 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera '(' al principio de la comparacion");}
 break;
 case 147:
-//#line 342 "gramatica.y"
+//#line 269 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera ')' al final de la comparacion_bool");}
 break;
 case 148:
-//#line 343 "gramatica.y"
+//#line 270 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera que la comparacion_bool se encuentre entre parentesis");}
 break;
 case 149:
-//#line 344 "gramatica.y"
+//#line 271 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una condicion");}
 break;
+case 150:
+//#line 274 "gramatica.y"
+{addEstructura("comparacion");}
+break;
 case 151:
-//#line 350 "gramatica.y"
+//#line 277 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una expresion luego del comparador");}
 break;
 case 152:
-//#line 351 "gramatica.y"
+//#line 278 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una expresion antes del comparador");}
 break;
 case 153:
-//#line 352 "gramatica.y"
+//#line 279 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","se espera expresiones para poder realizar las comparaciones");}
 break;
+case 163:
+//#line 295 "gramatica.y"
+{addEstructura("asignacion");}
+break;
 case 167:
-//#line 379 "gramatica.y"
+//#line 302 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
 break;
 case 168:
-//#line 380 "gramatica.y"
-{agregarError(erores_sintacticos,"Error","Conversion explicita no permitida");}
+//#line 303 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
 break;
 case 169:
-//#line 381 "gramatica.y"
+//#line 304 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Conversion explicita no permitida");}
 break;
 case 170:
-//#line 382 "gramatica.y"
+//#line 305 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una termino luego del signo '+' y conversion explicita no permitida");}
 break;
 case 171:
-//#line 383 "gramatica.y"
-{agregarError(erroes_sintacticos,"Error","Se espera una termino luego del signo '-' y conversion explicita no permitida");}
+//#line 306 "gramatica.y"
+{agregarError(errores_sintacticos,"Error","Se espera una termino luego del signo '-' y conversion explicita no permitida");}
+break;
+case 177:
+//#line 317 "gramatica.y"
+{
+            String ptr = TablaSimbolos.obtenerSimbolo(val_peek(0).sval);
+            negarConstante(val_peek(0).sval);
+    }
 break;
 case 183:
-//#line 416 "gramatica.y"
+//#line 332 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera una cadena dentro del OUT");}
 break;
 case 184:
-//#line 417 "gramatica.y"
+//#line 333 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera () con una cadena dentro");}
 break;
 case 185:
-//#line 418 "gramatica.y"
+//#line 334 "gramatica.y"
 {agregarError(errores_sintacticos,"Error","Se espera un que la CADENA se encuentre entre parentesis");}
 break;
-//#line 1463 "Parser.java"
+//#line 1565 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

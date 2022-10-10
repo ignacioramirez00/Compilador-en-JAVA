@@ -11,11 +11,12 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Compilador {
-    private AnalisisLexico lexico = new AnalisisLexico();
+    private AnalisisLexico lexico;
     private List<Character> buffer = new ArrayList<Character>();
     Map<Integer,String> tokens = new HashMap<>();
 
     public Compilador(){
+        lexico = new AnalisisLexico();
         tokens.put(257,"identificador");
         tokens.put(258, "constante");
         tokens.put(61, "=");
@@ -39,8 +40,8 @@ public class Compilador {
         tokens.put(21,"palabra reservada");
     }
 
-    public List<Character> crearBuffer() { // ta bom?
-        String fileName = "C:\\Users\\Matias\\Desktop\\programa_prueba.txt"; // se podra poner un link de git?
+    public List<Character> crearBuffer(String filePath) { // ta bom?
+        String fileName = filePath; // se podra poner un link de git?
         try {
             Scanner sc = new Scanner(new File(fileName));
             while (sc.hasNextLine()) {
@@ -57,8 +58,24 @@ public class Compilador {
     }
 
     void ejecutarLexico(){
-        List<Token> t = lexico.leerCodigo(crearBuffer());
+        List<Token> t = lexico.leerCodigo(crearBuffer("C:\\Users\\Matias\\Desktop\\programa_prueba.txt"));
         System.out.println(t.toString());
+    }
+    void ejecutarCompilador(String s){
+        buffer = crearBuffer(s);
+        Parser p = new Parser();
+        p.setSintactico(buffer,lexico);
+        System.out.println("Entra a yyparse");
+        p.yyparse();
+        System.out.println("Sale de yyparse");
+        List<String> estructura = p.getEstructura();
+        List<String> errores_sintacticos = p.getErrores();
+        List<String> errores_lexicos = lexico.getErrores();
+        List<Token> tokens = lexico.getTokens();
+        System.out.println("Tokens: " + tokens);
+        System.out.println("Estructura: " + estructura);
+        System.out.println("Errores lexicos: " + errores_lexicos);
+        System.out.println("Errores sintacticos: " + errores_sintacticos);
     }
 }
 

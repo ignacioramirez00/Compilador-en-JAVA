@@ -3,10 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="31d4459a-f2c4-48e1-9156-f42d579c7397" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Atributo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Atributo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Lexema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Lexema.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/TablaSimbolos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/TablaSimbolos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compilador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compilador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/AnalisisLexico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica10.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica10.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemantica2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemanticaError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EtapaLexico/Semantica/AccionSemanticaError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gramatica.y" beforeDir="false" afterPath="$PROJECT_DIR$/src/gramatica.y" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa04216" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa11060" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa12464" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa12624" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa15996" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa19128" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa19152" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yacc.oa19412" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,18 +47,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Matias/Desktop/Compiladores/G13_Compiladores",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Matias/Desktop/Compiladores/G13_Compiladores&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Matias\Desktop\Compiladores\G13_Compiladores\src" />

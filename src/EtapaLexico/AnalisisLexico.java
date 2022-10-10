@@ -10,18 +10,31 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AnalisisLexico {
-    private PalabrasReservadas palabrasReservadas = new PalabrasReservadas();
-    private TablaSimbolos tablaSimbolos = new TablaSimbolos();
+    //private PalabrasReservadas palabrasReservadas = new PalabrasReservadas();
+    //private TablaSimbolos tablaSimbolos = new TablaSimbolos();
     public static Integer transicionEstados[][] = new Integer[12][26];
     public static List<AccionSemantica> accionesSemanticas[][] = new ArrayList[12][26];
     public static StringBuilder tokenActual = new StringBuilder();
     public static int estadoActual = 0;
     private static int lineaActual = 1;
 
+    public static List<Token> listaTokens = new ArrayList<>();
+
     private static List<CompilationError> errores = new ArrayList<>();
 
     public AnalisisLexico(){
         crearTablas();
+    }
+
+    public List<String> getErrores() {
+        List<String> ls = new ArrayList<>();
+        for (int i = 0; i < errores.size(); i++) {
+            ls.add(errores.get(i).toString());
+        }
+        return ls;
+    }
+    public List<Token> getTokens(){
+        return listaTokens;
     }
 
     public static void setLineaActual(int lineaA) {
@@ -327,6 +340,23 @@ public class AnalisisLexico {
             tokenActual = new StringBuilder();
             estadoActual = 0;
         }
+        return t;
+    }
+
+    public static Token getToken(List<Character> buffer) {
+        estadoActual = 0;
+        boolean tieneToken = false;
+        Token t = null;
+        while (tieneToken == false) {
+            if (!buffer.isEmpty()) {
+                Character c = buffer.get(0);
+                t = cambiarEstado(c,buffer);
+                if (t != null) {
+                    tieneToken = true;
+                }
+            }
+        }
+        listaTokens.add(t);
         return t;
     }
 }

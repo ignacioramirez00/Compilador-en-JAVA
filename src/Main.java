@@ -7,6 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         Compilador c = new Compilador();
-        c.ejecutarLexico();
+        c.ejecutarCompilador("ejemplo_programas/programa_prueba.txt");
     }
 }

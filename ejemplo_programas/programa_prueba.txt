@@ -1,0 +1,5 @@
+program {
+	if ( lexa = 10 ) {
+		lexa =: 2.0D2;
+	};
+};

@@ -30,10 +30,8 @@ public class AccionSemantica2 implements AccionSemantica {
                 simbolo = token.toString();
             }
             if (TablaSimbolos.obtenerSimbolo(simbolo) != null) { // esta
-                System.out.println("Existe ya el id");
                 return new Token(257,TablaSimbolos.obtenerSimbolo(simbolo));
             } else { // no esta
-                System.out.println("Entro a nuevo id");
                 Lexema lexema = new Lexema(simbolo);
                 TablaSimbolos.agregarSimbolo(simbolo,lexema);
                 return new Token(257,TablaSimbolos.obtenerSimbolo(simbolo));

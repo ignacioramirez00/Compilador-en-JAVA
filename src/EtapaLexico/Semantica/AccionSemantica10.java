@@ -13,7 +13,6 @@ public class AccionSemantica10 implements AccionSemantica {
     @Override
     public Token ejecutar(Character ch, List<Character> buffer, StringBuilder token) {
         buffer.add(0,ch);
-        System.out.println(buffer);
         return null;
     }
 
