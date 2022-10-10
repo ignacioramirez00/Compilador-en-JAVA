@@ -1,0 +1,42 @@
+program_4{
+
+ 	fun funcion_1 (f64 t):f64
+ 	{
+  		f64 h;
+		h =: 1;
+  		if (h = 1) then
+ 		    h =: 4;		    
+          	    return(h);
+		else
+  		    return(h+1);
+                endif;
+ 	};
+
+	fun funcion_2():f64
+	{
+		f64 g;
+		g =: 3;
+		while (g<30) : (g =: g + 1){
+			out('ciclando en el while');
+		};
+		if (g = 30) then
+ 		    g =: 100;
+ 		else
+		    g =: 150;
+		end_if;
+		return(g);
+	};
+
+	fun funcion_3():f64
+	{
+                  f64 p;
+		  p =: 10;
+		  g =: 20;
+		  while (p<100) : (p =: p + 1){
+		   	 while (g<50) : (g =: g + 2) {
+		     	 	out('Segundo ciclo');
+		    	};
+			out('Primer ciclo');			      
+		  };
+	};
+};
