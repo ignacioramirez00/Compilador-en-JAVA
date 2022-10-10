@@ -1,4 +1,4 @@
-program {
+program_1 {
 	ui8 lexa;
 	fun funcion1():ui8 {
 		if ( lexa = 2 ) then {

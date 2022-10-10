@@ -1,0 +1,35 @@
+program_2{
+
+ fun f1(ui8 u): ui8
+ {
+   ui8 e;
+   e =: 10;
+   while (e < 20) : (e =: e+1){
+    out('ciclo');
+   };
+   return (e);
+ }; 
+
+ fun f2(ui8 x,ui8 t) : ui8
+ {
+   ui8 f;
+   f =: 2; 
+   if(f < 3) then
+       return (t);
+   else 
+       return(x);
+   endif;
+ };
+ 
+ fun f3() : ui8
+ {
+   ui8 x;
+   x =: 5;
+   defer while(x<10)
+   {
+      out('ciclando');
+      x =: x+1;
+   };
+   return(x);
+ };
+};
