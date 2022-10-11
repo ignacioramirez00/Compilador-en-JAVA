@@ -79,7 +79,7 @@ tipo: ENTERO
 
 ejecucion_funcion: '{' bloque_funcion RETURN '(' expresion ')' ';' '}' ';'
         | '{' RETURN '(' expresion ')' ';' '}' ';'
-        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion '}' {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion");}
+        | '{' bloque_funcion RETURN '(' expresion ')' ';' bloque_funcion '}' ';' {agregarError(errores_sintacticos,"Error", "El RETURN debe ser la ultima sentencia de la funcion");}
 ;
 
 
@@ -156,7 +156,7 @@ sentencia_ejecutable: asignacion ';'
 ;
 
 seleccion_when: WHEN '(' comparacion_bool ')' THEN '{' ejecucion_control '}' ';'
-            | WHEN '(' comparacion_bool ')' THEN sentencia_ejecutable ';'
+            | WHEN '(' comparacion_bool ')' THEN sentencia_ejecutable
             // me dice que tengo que incorporar en lista de palabras reservadas a la palabra const
             // faltan los errores
             | WHEN '(' comparacion_bool ')' THEN {agregarError(errores_sintacticos,"Error","Se espera una ejecucion y un ';' ");}
@@ -228,7 +228,7 @@ ejecucion_iteracion: ejecucion_iteracion sentencia_iteracion
 sentencia_iteracion: asignacion ';'
                 | seleccion_iteracion ';' {addEstructura("if en iteracion");}
                 | impresion ';' {addEstructura("impresion");}
-                | seleccion_when_iteracion ';' {addEstructura("when en iteracion");}
+                | seleccion_when_iteracion {addEstructura("when en iteracion");}
                 | iteracion_while {addEstructura("while");}
                 | break ';' {addEstructura("break");}
 ;
@@ -392,7 +392,6 @@ int yylex() {
             yylval = new ParserVal(t.getAtributo());
         }
     }
-    //System.out.println("YYLEX - " + tok);
     return tok;
 }
 

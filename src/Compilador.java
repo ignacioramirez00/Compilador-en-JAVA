@@ -15,8 +15,8 @@ public class Compilador {
     private List<Character> buffer = new ArrayList<Character>();
     Map<Integer,String> tokens = new HashMap<>();
 
-    public Compilador(){
-        lexico = new AnalisisLexico();
+    public Compilador(String datos_estados, String acciones_semanticas){
+        lexico = new AnalisisLexico(datos_estados,acciones_semanticas);
         tokens.put(257,"identificador");
         tokens.put(258, "constante");
         tokens.put(61, "=");
@@ -66,9 +66,7 @@ public class Compilador {
         buffer = crearBuffer(s);
         Parser p = new Parser();
         p.setSintactico(buffer,lexico);
-        System.out.println("Entra a yyparse");
         p.yyparse();
-        System.out.println("Sale de yyparse");
         List<String> estructura = p.getEstructura();
         List<String> errores_sintacticos = p.getErrores();
         List<String> errores_lexicos = lexico.getErrores();

@@ -18,12 +18,12 @@ public class AnalisisLexico {
     public static int estadoActual = 0;
     private static int lineaActual = 1;
 
-    public static List<Token> listaTokens = new ArrayList<>();
+    public static List<Token> listaTokens = new ArrayList<Token>();
 
-    private static List<CompilationError> errores = new ArrayList<>();
+    private static List<CompilationError> errores = new ArrayList<CompilationError>();
 
-    public AnalisisLexico(){
-        crearTablas();
+    public AnalisisLexico(String datos_estados, String acciones_semanticas){
+        crearTablas(datos_estados,acciones_semanticas);
     }
 
     public List<String> getErrores() {
@@ -44,8 +44,8 @@ public class AnalisisLexico {
         return lineaActual;
     }
 
-    public void crearTablas(){
-        String fileName = "archivos/datos_estados.txt"; // se podra poner un link de git?
+    public void crearTablas(String datos_estados, String acciones_semanticas){
+        String fileName = datos_estados; // se podra poner un link de git?
         try {
             int fila = 0;
             int columna = 0;
@@ -62,12 +62,12 @@ public class AnalisisLexico {
                 columna++;
                 datos++;
             }
-            mostrarMatriz(transicionEstados);
+            //mostrarMatriz(transicionEstados);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String fileName2 = "archivos/acciones_semanticas.txt"; // se podra poner un link de git?
+        String fileName2 = acciones_semanticas; // se podra poner un link de git?
         try {
             int fila = 0;
             int columna = 0;
@@ -135,7 +135,7 @@ public class AnalisisLexico {
                 columna++;
                 datos++;
             }
-            mostrarMatrizAS(accionesSemanticas);
+            //mostrarMatrizAS(accionesSemanticas);
         } catch (IOException e) {
             e.printStackTrace();
         }

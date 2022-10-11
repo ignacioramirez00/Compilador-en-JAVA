@@ -1,0 +1,13 @@
+program_5 {
+	ui8 x;
+	x =: 10;
+	ui8 i;
+	i =: 0;
+	while (i < x) : (i =: i+1) {
+		when () then
+			break;
+		when (i/2 = 0) then {
+			out('par');
+		};
+	};
+};
